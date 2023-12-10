@@ -1,0 +1,11 @@
+{
+    "title":            "vanjs-bootstrap",
+    "brandImage":       "img/form-lib.svg",
+    "brandLink":        "#home",
+    "checkLinks":       true,
+    "copyImages":       true,
+    "createMdDoc":      true,
+    "extLinkIcon":      true,
+    "imageClass":       "img-fluid mx-auto my-4 d-block border rounded shadow p-3 mb-5 bg-body",
+    "links": []
+}
