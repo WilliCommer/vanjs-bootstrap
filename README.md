@@ -1,6 +1,6 @@
 # vanjs-bootstrap
 
-- [Home](#home)
+- [Start](#home)
 - [Button](#page-button)
 - Form
   - [FormController](#formcontroller)
@@ -11,10 +11,13 @@
 - [Navbar](#navbar)
 - [Modal](#modal)
 - [Menu](#menu)
+- [TagInput](#taginput)
 - Tools
   - [Icons](#icons)
   - [selectOptions](#selectoptions)
+  - [DragSort](#dragsort)
   - [i18n](#i18n)
+- [History](#history)
 <br />
 
 ----
@@ -62,7 +65,7 @@ van.add(app, App());
 
 # Button
 
-> ##### `export function Button ({bsSize, class, color='secondary', outline, dropdown, ...props}, children)`
+> ### `export function Button ({bsSize, class, color='secondary', outline, dropdown, ...props}, children)`
 
 Implements a Bootstrap [button](https://getbootstrap.com/docs/5.3/components/buttons/)
 
@@ -129,7 +132,7 @@ export default function Page() {
 
 # FormController
 
-> ##### `export function FormController ({values})`
+> ### `export function FormController ({values})`
 
 Function FormController creates a simple object to handle multiple inputs.
 
@@ -189,7 +192,7 @@ export function FormController ({values} = {}) {
 
 # FormGroup
 
-> ##### `export function FormGroup({name, label, type, input, class, bsSize, cols, id, ...props})`
+> ### `export function FormGroup({name, label, type, input, class, bsSize, cols, id, ...props})`
 
 FormGroup creates a combination of label and input.
 The most important arguments are "name", "label" and "type".
@@ -252,7 +255,7 @@ export function FormGroup({name, label, class: clas, bsSize, cols, id, ...props}
 
 # FormBuilder
 
-> ##### `export function FormBuilder (dom)`
+> ### `export function FormBuilder ({dom, values})`
 
 The FormBuilder inherits from [FormController](#formcontroller). With it you can easily create forms in Bootstrap grid format.
 
@@ -290,22 +293,24 @@ return div({class: 'row p-2 border'},
 ## FormBuilder Code
 
 ```javascript
-export function FormBuilder (dom) {
-    var fc = FormController();
+export function FormBuilder ({dom, values}={}) {
+    var fc = FormController({values});
     var self = {
         ...fc,
         dom: dom ?? van.tags('form'),
         row: null,
         add (props, dom) {
             let {name, value, oninput, ...rest} = props;
+            if(value === undefined && name) value = self.values[name];
             let args = {...rest, ...fc.args({name, value, oninput}) };
             van.add(dom ?? self.row ?? self.dom, FormGroup(args));
+            return self;
         },
         addRow (arg) {
             if(arg === null) return self.row=null;
             self.row = div({class: "row" + (arg ? ' '+arg : '')});
             van.add(self.dom, self.row);
-            return self.row;
+            return self;
         }
     }
     return self;
@@ -334,6 +339,8 @@ export function Input({class: clas, bsSize, ...props})
 
 export function FormLabel({class: clas, bsSize, col, ...props}, children)
 
+export function Textarea({class: clas, bsSize, ...props})
+
 export function SelectInput ({class: clas, bsSize, ...props})
 
 export function FormCheckInput ({label: clabel, type, class: clas, style, bsSize, reverse, id, value, ...props})
@@ -355,7 +362,7 @@ export function RadioSelectInput ({options, class: clas, bsSize, inline, id, ...
 | type | control |
 | --- | --- |
 | 'text' |            Input |
-| 'textarea' |        Input |
+| 'textarea' |        Textarea |
 | 'select' |          SelectInput |
 | 'radioselect' |     RadioSelectInput |
 | 'checkbox' |        CheckboxInput |
@@ -699,7 +706,7 @@ Work with Bootstrap [Modal](https://getbootstrap.com/docs/5.3/components/modal).
 
 ## ModalFrame
 
-> ##### `export function ModalFrame (options)`
+> ### `export function ModalFrame (options)`
 
 The function ModalFrame creates a complete modal dom struture like:
 
@@ -781,7 +788,7 @@ div(
 
 You can achieve more flexibility by using the Modal function.
 
-> ##### `export function Modal (args, options)`
+> ### `export function Modal (args, options)`
 
 Where **args** are the options used for ModalFrame and **options** are controller options.
 The function returns an object with properties and functions.
@@ -928,7 +935,7 @@ In addition to the dropdown menu, a popup menu and a context menu are also imple
 
 ## MenuItem
 
-> ##### export function MenuItem ({label, header, divider, text, active, disabled, class, ...props})
+> ### `export function MenuItem ({label, header, divider, text, active, disabled, tag, class, ...props})`
 
 This function returns dom like
 
@@ -946,11 +953,15 @@ This function returns dom like
 - **text** boolean  
 - **active** boolean  
 - **disabled** boolean  
+- **tag** string  
+  a optional tag overwrite the default tag, like "div"  
 - **onclick** event function  
+  use `event.preventDefault(); event.stopPropagation();` to prevent the menu from closing in your *onclick* function.  
+
 
 ## DropdownMenu
 
-> ##### export function DropdownMenu (...items)
+> ### `export function DropdownMenu (...items)`
 
 For *items* functions or objects are accepted.
 
@@ -989,7 +1000,7 @@ const DropdownDemo = () => {
 
 ## PopupMenu
 
-> ##### export function PopupMenu (...items)
+> ### `export function PopupMenu (...items)`
 
 For *items* functions or objects are accepted.
 This function returns a Modal object. Call function *open* to show.
@@ -1021,7 +1032,7 @@ const PopupDemo = () => {
 
 ## ContextMenu
 
-> ##### export function ContextMenu (...items)
+> ### `export function ContextMenu (...items)`
 
 For *items* functions or objects are accepted.
 This function returns a Modal object. Call function *open(event)* to show. Function *open* accepts the click event to open the menu at click position.
@@ -1054,6 +1065,216 @@ const ContextDemo = () => {
 
 ----
 
+<a name="taginput" />
+
+# TagInput
+
+A form multi select control to edit a list of tag items.
+
+- support visual 'tag sort order' modification.
+- support text / value options like select control
+- allow to enter items, not in option list
+- handle key board
+
+| Props                 | Default |                                                              |
+| --------------------- | ------- | ------------------------------------------------------------ |
+| **value**             |         | required. Format "a,b,c" or ["a", "b", "c"]                  |
+| **options**           | []      | optional array of string to be used in select list<br />or [ ["text1", "value1"], ["text2", "value2"]]<br />comma separated options are allowed<br />see [Select Options](#selectoptions) |
+| **oninput( event )** |         | required, value change event feedback                        |
+| **commaValue**        | true    | **false:** value is array of string<br />**true:** value is comma separated string |
+| **dragSort**          | true    | allow items drag'n drop                                      |
+| **delIcon**           | 'none'  | "Remove Cross" position 'left', 'right', 'none'              |
+| **orderIcon**         | false   | show minus sign as icon                                      |
+| **allowCreate**       | true    | enable edit for new items                                    |
+| **multi**             | true    | enable multi select                                          |
+| **closeOnCheck** | false | close option list on check |
+| **bsSize**            | 'sm'    | bootstrap size                                               |
+| **placeholder**       |         | show text if no value                                        |
+| **tagColor**       | "text-bg-primary" | badges color like "text-bg-primary" or "text-bg-secondary" |
+| **loading**           |         | show spinner on "true"                                       |
+| **style**             |       | extra control style<br/>`style:"height:5em;"`               |
+| **icons**             | {}      | overwrite icons               |
+| **t**             | t=>t      | overwrite translate function               |
+| **...props**          |         | extra props                                                  |
+
+<br/>
+
+## Keyboard
+
+- navigate drop down items with up / down key
+- press space bar to toggle item
+- hold ctrl key to select / deselect all items
+- hold shift key to prevent list close
+
+## icons
+
+icons = {IconDelete, IconCheck, IconUncheck, IconAsc,IconDsc}
+
+For example overwrite IconDelete with trash can
+
+```javascript
+import { TagInput, Icon, SvgStrIcon} from 'vanjs-bootstrap';
+
+const IconDelete = props => Icon(SvgStrIcon(
+    '<svg viewBox="0 0 448 512"><path d="M160 400C160 408.8 152.8 416 144 416C135.2 416 128 408.8 128 400V192C128 183.2 135.2 176 144 176C152.8 176 160 183.2 160 192V400zM240 400C240 408.8 232.8 416 224 416C215.2 416 208 408.8 208 400V192C208 183.2 215.2 176 224 176C232.8 176 240 183.2 240 192V400zM320 400C320 408.8 312.8 416 304 416C295.2 416 288 408.8 288 400V192C288 183.2 295.2 176 304 176C312.8 176 320 183.2 320 192V400zM317.5 24.94L354.2 80H424C437.3 80 448 90.75 448 104C448 117.3 437.3 128 424 128H416V432C416 476.2 380.2 512 336 512H112C67.82 512 32 476.2 32 432V128H24C10.75 128 0 117.3 0 104C0 90.75 10.75 80 24 80H93.82L130.5 24.94C140.9 9.357 158.4 0 177.1 0H270.9C289.6 0 307.1 9.358 317.5 24.94H317.5zM151.5 80H296.5L277.5 51.56C276 49.34 273.5 48 270.9 48H177.1C174.5 48 171.1 49.34 170.5 51.56L151.5 80zM80 432C80 449.7 94.33 464 112 464H336C353.7 464 368 449.7 368 432V128H80V432z" /></svg>',
+    {style: "vertical-align: bottom;", fill: 'currentColor', stroke: 'currenColor', ...props}
+));
+
+const tagInput = TagInput({ value, oninput, icons: {IconDelete}})
+
+```
+
+## t
+
+Use your own translate function.
+
+Example
+
+```javascript
+const myT = t => {
+    const i18nWords = {
+        'remove':               'entfernen',
+        'ascending':            'aufsteigend',
+        'descending':           'absteigend',
+        'edplaceholder':        'neuen Tag eingeben',
+    };
+    return i18nWords[t] ?? t;
+}
+
+const tagInput = TagInput({ value, oninput, t: myT})
+
+```
+
+<br/>
+
+<details>
+  <summary>Show Demo Code</summary>
+
+```javascript
+
+import van from 'vanjs-core';
+import { TagInput, RadioSelectInput, SelectInput, CheckboxInput } from 'vanjs-bootstrap';
+import { Icon, SvgStrIcon} from 'vanjs-bootstrap';
+
+const { div, h2, span } = van.tags;
+
+var bsSize = van.state('md');
+var color = van.state('');
+var allowCreate = van.state(true);
+var multi = van.state(true);
+var delIcon = van.state('none');
+var orderIcon = van.state(false);
+var tagValue = van.state("1,2");
+// var tagValue = van.state("1,2,aaa,bbb,ccccccccc,dddddddd,eeeeeee,fffffff,ggggggg,hhhhhhh,iiiiiii,jjjjjjj,kkkkkkk");
+var value = tagValue.val;
+
+van.derive( ()=> console.log('tagValue change', tagValue.val))
+
+
+const IconDelete = props => Icon(SvgStrIcon(
+    '<svg viewBox="0 0 448 512"><path d="M160 400C160 408.8 152.8 416 144 416C135.2 416 128 408.8 128 400V192C128 183.2 135.2 176 144 176C152.8 176 160 183.2 160 192V400zM240 400C240 408.8 232.8 416 224 416C215.2 416 208 408.8 208 400V192C208 183.2 215.2 176 224 176C232.8 176 240 183.2 240 192V400zM320 400C320 408.8 312.8 416 304 416C295.2 416 288 408.8 288 400V192C288 183.2 295.2 176 304 176C312.8 176 320 183.2 320 192V400zM317.5 24.94L354.2 80H424C437.3 80 448 90.75 448 104C448 117.3 437.3 128 424 128H416V432C416 476.2 380.2 512 336 512H112C67.82 512 32 476.2 32 432V128H24C10.75 128 0 117.3 0 104C0 90.75 10.75 80 24 80H93.82L130.5 24.94C140.9 9.357 158.4 0 177.1 0H270.9C289.6 0 307.1 9.358 317.5 24.94H317.5zM151.5 80H296.5L277.5 51.56C276 49.34 273.5 48 270.9 48H177.1C174.5 48 171.1 49.34 170.5 51.56L151.5 80zM80 432C80 449.7 94.33 464 112 464H336C353.7 464 368 449.7 368 432V128H80V432z" /></svg>',
+    {style: "vertical-align: bottom;", fill: 'currentColor', stroke: 'currenColor', ...props}
+));
+
+const myT = t => {
+    const i18nWords = {
+        'remove':               'entfernen',
+        'ascending':            'aufsteigend',
+        'descending':           'absteigend',
+        'edplaceholder':        'neuen Tag eingeben',
+    };
+    return i18nWords[t] ?? t;
+}
+
+export default function Page() {
+
+    const OptionsBar = div(
+        div({ class: "input-group input-group-sm" },
+
+            span({ class: "input-group-text" }, 'bsSize'),
+            RadioSelectInput({
+                value: bsSize.val,
+                oninput: e => bsSize.val = e.target.value,
+                options: 'sm,md,lg', 
+                // inline: true,
+            }),
+
+            span({ class: "input-group-text" }, 'tagColor'),
+            SelectInput({
+                value: color.val,
+                oninput: e => color.val = e.target.value,
+                options: ",text-bg-primary,text-bg-secondary,text-bg-success,text-bg-danger,text-bg-warning,text-bg-info,text-bg-light,text-bg-dark",
+                style: "max-width: 10em",
+            }),
+
+            span({ class: "input-group-text" }, 'delIcon'),
+            RadioSelectInput({
+                value: delIcon.val,
+                oninput: e => delIcon.val = e.target.value,
+                options: 'none,left,right', 
+                // inline: true,
+            }),
+
+
+            span({ class: "input-group-text" }, 'orderIcon'),
+            CbControl({ value: orderIcon.val, oninput: e => orderIcon.val = e.target.value}),
+
+            span({ class: "input-group-text" }, 'multi'),
+            CbControl({ value: multi.val, oninput: e => multi.val = e.target.value}),
+
+            span({ class: "input-group-text" }, 'allowCreate'),
+            CbControl({ value: allowCreate.val, oninput: e => allowCreate.val = e.target.value}),
+
+        ),
+    );
+
+    return div({},
+        div({class: "row"},
+            h2('TagInput Demo'),
+            OptionsBar,
+            div({class: "col"},
+                TagInput({ bsSize, tagColor: color.val, multi: multi.val,
+                allowCreate: allowCreate.val,
+                orderIcon: orderIcon.val,
+                class: "mt-3",
+                placeholder: "placeholder",
+                options: [["one","1"],["two","2"],["three","3"],"","x","y"],
+                value,
+                oninput: ev => {tagValue.val = ev.target.value; value = ev.target.value},
+                delIcon: delIcon.val,
+                // loading:    true,
+                tabindex: "1",
+                icons: {IconDelete},
+                t: myT,
+            }),
+            ),
+        ),
+        ValueState,
+    )
+}
+
+
+function ValueState() {
+    return div({class: "row"},
+        div({class: "col"}, ()=>`value: ${tagValue.val}` )
+    )
+}
+
+
+function CbControl({class: clas, bsSize, ...props}) {
+    return div(
+        {class: "form-control d-flex align-items-center", style: "max-width: 2.25em"},
+        CheckboxInput(props)
+    )
+}
+```
+</details>
+
+
+<br />
+
+----
+
 <a name="icons" />
 
 # Icons
@@ -1062,9 +1283,20 @@ Icons, the small images used on buttons or in the text, make the UI appealing an
 
 The library contains simple functions for displaying and managing icons from different sources.
 
+- [Icon](#icon)
+- [Icon Map](#icon-map)
+- [setIcon](#function-seticon-key-icon)
+- [getIcon](#function-geticon-key)
+- [setWarning](#function-setwarning-value)
+- [SvgIconBase](#function-svgiconbase-props---children)
+- [ImgIcon](#function-imgicon-src-alt-rest)
+- [SvgStrIcon](#function-svgstricon-str-svgargs--)
+
+
+
 ## Icon
 
-> ##### function Icon( anything, {size, ...props} )
+> ### `function Icon( anything, {size, ...props} )`
 
 The function icon displays icons on different sources.
 
@@ -1116,7 +1348,7 @@ Other '...props' like 'class' or 'style' are passed on.
 
 ## Icon Map
 
-> ##### export var iconMap = new Map()
+> ### `export var iconMap = new Map()`
 
 Variable **iconMap** is a JavaScript Map to store icon by key. It is recommended to store icons here and display them with `Icon('key')`.
 The best approach is to create an icon library.
@@ -1162,7 +1394,7 @@ export default function App() {
 
 ```
 
-> ##### function setIcon (key, icon)
+> ### `function setIcon (key, icon)`
 
 Sets an icon to a key. *icon* should be a function to pass arguments of the function Icon.
 Icons can also be derived from other icons.
@@ -1170,12 +1402,12 @@ Icons can also be derived from other icons.
 `setIcon( 'LOGO', props => Icon('VANLOGO', props) )`
 
 
-> ##### function getIcon (key)
+> ### `function getIcon (key)`
 
 Gets an icon by key.
 
 
-> ##### function setWarning (value)
+> ### `function setWarning (value)`
 
 This is useful for debugging. Value is
 
@@ -1213,7 +1445,7 @@ function ShowIconMap() {
 
 ## Icon Transformers
 
-> ##### function SvgIconBase (props = {}, ...children) {
+> ### `function SvgIconBase (props = {}, ...children)`
 
 Is a base component wrapper for SVG icons build as VanJs function.
 The idea behind is to have a SVG image that size is 1em. So it fit to font-size.
@@ -1240,7 +1472,7 @@ function MyIcon (props) {
 
 
 
-> ##### function GenIcon(data)
+> ### `function GenIcon(data)`
 
 This function returns a Icon function, where data is a svg data tree:
 
@@ -1260,7 +1492,7 @@ const moon = GenIcon({
 });
 ```
 
-> ##### function ImgIcon ({src, alt, ...rest})
+> ### `function ImgIcon ({src, alt, ...rest})`
 
 Create a Icon function by image url. The "size" is injected as style so we can use units like "em".
 For original size use "inherit".
@@ -1269,14 +1501,14 @@ If "alt" is not specified, the last part of the URL is used for this
 `setIcon( 'KEY', ImgIcon({src: "img/key.png"}))``
 
 
-> ##### function SvgStrIcon (str, svgargs = {}) {
+> ### `function SvgStrIcon (str, svgargs = {})`
 
 Create a Icon function from a SVG string. svgargs will overwrite svg attributes like fill and stroke.
 
 ```javascript
 SvgStrIcon(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><circle cx="5" cy="5" r="3"/></svg>',
-  {fill: 'currentColor', stroke: 'currenColor}
+  {fill: 'currentColor', stroke: 'currenColor'}
 )
 ```
 
@@ -1289,7 +1521,7 @@ SvgStrIcon(
 
 # SelectOptions
 
-`function selectOptions (list, dom=false, selected)`
+> ### `function selectOptions (list, dom=false, selected)`
 
 All form controls in this library use the selectOptions function. This converts different kind of lists into a uniform format that can easily be mapped into a dom.
 Is the `dom` parameter `true`, the function returns a ready mapped dom `option` list.
@@ -1346,6 +1578,43 @@ import {selectOptions} from 'lib';
 ..
 return input({type: 'select', value: fontName}, selectOptions(fontNames, true, fontName))
 ```
+<br />
+
+----
+
+<a name="dragsort" />
+
+# function DragSort
+
+A helper to sort a list per drag and drop.
+
+> ### `export function DragSort (list, setList)`
+
+- list:  array to be sorted
+- setList: function to store reordered list
+
+Function DragSort returns an object with all required function. The function dragProps of the object can inject all html attributes like draggable, ondragstart and so on.
+
+Usage example:
+
+```javascript
+var list = ["A","B","C"];
+const setList = v => list = v;
+
+function MyList ({list, setList, ...props}) {
+    const drag = DragSort(list, setList);
+    const items = list.map( (item,index) => {
+        return van.tags.li({
+            class: "list-group-item",
+            ...drag.dragProps(index)
+            },
+            item
+        )
+    });
+    return van.tags.ul({class: "list-group", ...props}, ...items)
+}
+```
+
 <br />
 
 ----
@@ -1444,3 +1713,37 @@ export default function App() {
     )
 }
 ```
+
+<br />
+
+----
+
+<a name="history" />
+
+## History
+
+- 1.0.4  
+  FormBuilder change  
+  add Textarea
+  add [TagInput](#taginput)  
+  add [DragSort](#dragsort)  
+  add tag option for [MenuItem](#menuitem)  
+
+<details>
+  <summary>older</summary>
+
+- 1.0.3  
+  Modal header style  
+  enhance documentation  
+
+- 1.0.2  
+  add [repository](https://github.com/WilliCommer/vanjs-bootstrap)  
+  formbuilder add returns self  
+
+- 1.0.1  
+  add Icons  
+
+- 1.0.0  
+  start  
+
+</details>

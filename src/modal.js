@@ -1,7 +1,7 @@
 import van  from 'vanjs-core';
 import {Modal as BsModal} from 'bootstrap';
 
-const {div, button} = van.tags;
+const {div, button,h5} = van.tags;
 
 export function ModalFrame (args = {}) {
 
@@ -34,6 +34,7 @@ export function ModalFrame (args = {}) {
 
     const contentClass = "modal-content" + (color ? " " + color : "");
 
+    if((typeof header === "string")) header = h5({class: "modal-title"}, header);
 
     return (
         div({class: () => "modal", id, "aria-hidden": "true", tabindex:"-1", ...props},
@@ -177,11 +178,10 @@ export function DropdownMenu (...children) {
 
 
 
-
 export function MenuItem (props)  {
     const {li,span,hr,button} = van.tags;
     const noclick = event => {event.preventDefault(); event.stopPropagation();}; 
-    var {label, header, divider, text, active, disabled, class: clas, ...rest} = props;
+    var {label, header, divider, text, active, disabled, class: clas, tag, ...rest} = props;
     var classf = (cl) => () => {
         let res = cl;
         if(van.val(active)) res += ' active';
@@ -189,14 +189,22 @@ export function MenuItem (props)  {
         if(van.val(clas)) res += ' ' + van.val(clas);
         return res;
     }
-    if(header)
-        return li(span({class: classf("dropdown-header fw-bold border-bottom"), onclick: noclick, ...rest}, label));
-    if(divider)
-        return li(hr({class: classf("dropdown-divider"), onclick: noclick, ...rest}, label));
-    if(text)
-        return li(span({class: classf("dropdown-item-text"), onclick: noclick, ...rest}, label));
-    return li(button({class: classf("dropdown-item"), role:"button", ...rest}, label));
+    if(header) {
+        tag = tag ? van.tags[tag] : span;
+        return li(tag({class: classf("dropdown-header fw-bold border-bottom"), onclick: noclick, ...rest}, label));
+    }
+    if(divider) {
+        tag = tag ? van.tags[tag] : hr;
+        return li(tag({class: classf("dropdown-divider"), onclick: noclick, ...rest}, label));
+    }
+    if(text) {
+        tag = tag ? van.tags[tag] : span;
+        return li(tag({class: classf("dropdown-item-text"), onclick: noclick, ...rest}, label));
+    }
+    tag = tag ? van.tags[tag] : button;
+    return li(tag({class: classf("dropdown-item"), role:"button", ...rest}, label));
 }
+
 
 
 export function PopupMenu (...items) {
