@@ -35,6 +35,8 @@
 
 For a long time I built my UIs with React and Bootstrap. Then I met VanJs and am amazed at how easy it is. So that I don't have to mess with CSS, I'm introducing some Bootstrap components here.
 
+[Check out the demo](http://familiecommer.de/vanjs-bootstrap-demo)
+
 
 ## Installation
 
@@ -1584,7 +1586,7 @@ return input({type: 'select', value: fontName}, selectOptions(fontNames, true, f
 
 <a name="dragsort" />
 
-# function DragSort
+# DragSort
 
 A helper to sort a list per drag and drop.
 
@@ -1595,26 +1597,39 @@ A helper to sort a list per drag and drop.
 
 Function DragSort returns an object with all required function. The function dragProps of the object can inject all html attributes like draggable, ondragstart and so on.
 
+The function used to be a React Hook, but works great in VanJs and is now used in this library by TagInput.
+
 Usage example:
 
 ```javascript
-var list = ["A","B","C"];
-const setList = v => list = v;
+import van          from 'vanjs-core';
+import { DragSort } from 'vanjs-bootstrap';
 
-function MyList ({list, setList, ...props}) {
-    const drag = DragSort(list, setList);
-    const items = list.map( (item,index) => {
+const {div, h2} = van.tags;
+
+const gitems = van.state(["A","B","C"])
+
+function MyList () {
+    const drag = DragSort(gitems.val, v => gitems.val=v);  // create drag sort object
+    const items = gitems.val.map( (item,index) => {
         return van.tags.li({
-            class: "list-group-item",
-            ...drag.dragProps(index)
+            class: () => "list-group-item",
+            ...drag.dragProps(index)                // inject properties
             },
             item
         )
     });
-    return van.tags.ul({class: "list-group", ...props}, ...items)
+    return van.tags.ul({class: "list-group"}, ...items)
 }
-```
 
+export default function Page() {
+    return div({},
+        h2('DragSort Demo'),
+        MyList,
+    )
+}
+
+```
 <br />
 
 ----
