@@ -13,10 +13,10 @@
 - [Menu](#menu)
 - [TagInput](#taginput)
 - Tools
-  - [Icons](#icons)
-  - [selectOptions](#selectoptions)
   - [DragSort](#dragsort)
   - [i18n](#i18n)
+  - [Icons](#icons)
+  - [selectOptions](#selectoptions)
 - [History](#history)
 <br />
 
@@ -194,19 +194,37 @@ export function FormController ({values} = {}) {
 
 # FormGroup
 
-> ### `export function FormGroup({name, label, type, input, class, bsSize, cols, id, ...props})`
+> ##### `export function FormGroup({name, label, type, input, class, bsSize, cols, id, ...props}, ...children})`
 
 FormGroup creates a combination of label and input.
 The most important arguments are "name", "label" and "type".
-The value for "type" is usually an [\<input\> type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types). However, special input fields can either be passed as "input" (a van function) or registered in *typeMap* with their own "type" ([see example](#align-demo)).
+The value for "type" is usually an [\<input\> type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types). However, special input fields can either be passed as "input" (a van function) or registered in *typeMap* with their own "type" ([see example](#aligndemo)).
 The "id" can be specified, but will be generated automatically if not present.
 All other arguments in "...props" are passed to the input element, such as "oninput" and "value".
 The elements are displayed on top of each other.
-If col is set, they can also be placed next to each other in a row. For example `col: "2 4"` uses 2 colums for the label and 4 colums for the input.
-
-
+If cols is set, they can also be placed next to each other in a row. For example `cols: "2 4"` uses 2 colums for the label and 4 colums for the input.
 
 See [FormBuilder Demo](#formbuilder) for example.
+
+
+## FormGroup Args
+
+| arg | comment |
+| --- | --- |
+| name | string becomes input name |
+| label | string or func becomes a label component |
+| input | a input control alternative to type. See [Custom Input](#custominput) |
+| class | class of the enveloping group |
+| inputClass | class of the input control |
+| bsSize | Bootstrap size |
+| cols | space separated string "left right" for the Bootstrap column sizes i.e. "3 6" |
+| col | Bootstrap column size of the group alternative to cols. Used for form class "row g-3" |
+| id | HTML id of group. Will get random id if omited. Label id is it+'-l', input id is id + '-i' |
+| separated | special for FormCheck. Separate label and check if true |
+| ...props | passed to input control |
+| ...children | appendix for input control like :form-text :valid-feedback or :invalid-feedback |
+
+<p></p>
 
 <details>
   <summary>Show FormGroup Code</summary>
@@ -214,35 +232,57 @@ See [FormBuilder Demo](#formbuilder) for example.
 ## FormGroup Code
 
 ```javascript
-export function FormGroup({name, label, class: clas, bsSize, cols, id, ...props}) {
+export function FormGroup({ name, label, input, class: clas, inputClass, bsSize, cols, col, id, separated, ...props}, ...children) {
     const cl = () => {
         let res = '';
         if(van.val(clas)) res += ' ' + van.val(clas);
         return res;
     }
     let g_id = id ?? Math.random().toString(36).substring(2, 9);
-    let i_id = 'i_' + g_id;
+    let i_id = g_id + '-i';
     let domInput = input ?? typeMap.get(props.type) ?? Input;
+    let ischeck = ['checkbox','radio','switch'].includes(props.type);
+
+    let inputEl, labelEl;
+    if(ischeck) {
+        if(separated) {
+            labelEl = FormLabel({bsSize, for: i_id}, label);
+            inputClass = (inputClass ?? '') + ' mt-2';
+            inputEl = domInput({bsSize, name, id: i_id, class: inputClass, ...props}, ...children);
+        } else {
+            labelEl = null;
+            inputEl = domInput({bsSize, name, id: i_id, class: inputClass, label, ...props}, ...children);
+        }
+        children = [];
+    } else {
+        labelEl = FormLabel({bsSize, for: i_id}, label);
+        inputEl = domInput({bsSize, name, id: i_id, class: inputClass, ...props});
+    }
 
     if(cols) {
         let [col_l, col_r] = cols.split(' ');
-        return [
-            FormLabel({bsSize, col: col_l, for: i_id}, label),
-            div({
-                class: () => {
-                    let res = col_r ? `col-${col_r}` : 'col';
-                    if(['checkbox','radio','switch'].includes(props.type)) res += ' pt-2';
-                    return res;
-                }},
-                domInput({bsSize, name, id: i_id, ...props})
-            )
-        ]
+        col_r = col_r || 12 - Number(col_l);
+        var res = [];
+        if(labelEl) 
+            res.push(FormLabel({bsSize, col: col_l, id: g_id + '-l', for: i_id}, label));
+        else
+            res.push(div({class: col_l ? `col-${col_l}` : 'col'}));
+        res.push(div({class: col_r ? `col-${col_r}` : 'col'}, inputEl, ...children));
+        return res;
     }
 
+    if(col) {
+        return div({class: col},
+            labelEl,
+            inputEl,
+            ...children
+        );
+    }
 
-    return div({class: cl, ...props},
-        FormLabel({bsSize, for: i_id}, label),
-        domInput({bsSize, name, id: i_id, ...props})
+    return div({class: cl, id: g_id, ...props},
+        labelEl,
+        inputEl,
+        ...children
     );
 }
 ```
@@ -257,7 +297,7 @@ export function FormGroup({name, label, class: clas, bsSize, cols, id, ...props}
 
 # FormBuilder
 
-> ### `export function FormBuilder ({dom, values})`
+> ##### `export function FormBuilder ({dom, values, rowClass="", formClass="", cols, autoRow, bsSize, id, onChange}={})`
 
 The FormBuilder inherits from [FormController](#formcontroller). With it you can easily create forms in Bootstrap grid format.
 
@@ -289,32 +329,154 @@ return div({class: 'row p-2 border'},
 )
 ```
 
+## FormBuilder Args
+
+| arg | comment |
+| --- | --- |
+| dom | Container for the form groups to be inserted. If omitted a `<form class=formClass />` is created. |
+| values | Optional initial values as object `{name: value,..}` |
+| formClass | Class for the generated form tag |
+| rowClass | Class for the generated rows if autoRow is true |
+| cols | Default cols attribute for addRow |
+| autoRow | If true, will add a new row if the columns in a row exceeds 12 |
+| bsSize | Default Bootstrap size for inserted components. '' or 'sm' or 'lg' |
+| id | HTML id of the form. Random id if omitted. It is the prefix for label id (formId-groupId-l) and input id (formId-groupId-i) |
+| onChange | Optional callback function(name,value) for input change |
+
+## FormBuilder Props
+
+Properties inherited from FormControl.
+
+| property | comment |
+| --- | --- |
+| values | input values as object `{name: value,..}` |
+| onChange(func) | Subscribe input value change events. func=function(name,value) |
+| emitChange(name, value) | Notify change to all subscribers |
+| handleInput(event) | input element oninpup(event) handler |
+| args(props) | Function returns completetd props for a input control. Generate 'value', 'oninput' and 'name'. |
+
+Own properties.
+
+| property | comment |
+| --- | --- |
+| dom | Container for the form groups to be inserted. |
+| row | Actual row element |
+| rowClass | Default ow class |
+| cols | Default cols attribute for inserted groups |
+| autoRow | If true, will add a new row if the columns in a row exceeds 12 |
+| colCount | Number of colums in actual row |
+| id | Form tag id |
+| valid | Container for form validation |
+| onvalidate | Container for form validation |
+| **add(props, ...children)** | The main function used to insert a form group. |
+| addGroup(args,...children) | Finally insert a group |
+| **addRow(arg)** | Add a new row with ...args injected. i.e. `addRow({class: "m-2"})` |
+| **getFormValid()** | Function returns true/false when all input values are valid |
+
+## Function add(props, ...children)
+
+The main function used to insert a form group.
+The props argument decides how the inserted form group is created.
+The further arguments are added as an appendix to the input component.
+
+### Add Properties
+
+| property | comment |
+| --- | --- |
+| **name** | string becomes input name |
+| **label** | string or func becomes a label component |
+| **type** | Type attribute for the input control |
+| oninput | Optional for special usage. Is generally generated automatically |
+| input | a input control alternative to type. See [Custom Input](#custominput) |
+| class | class of the enveloping group |
+| inputClass | class of the input control |
+| bsSize | Bootstrap size |
+| cols | space separated string "left right" for the Bootstrap column sizes i.e. "3 6" |
+| col | Bootstrap column size of the group alternative to cols. Used for form class "row g-3" |
+| id | HTML id of group. Will get random id if omited. Label id is "formId-id-l", input id is "formId-id-i" |
+| separated | special for FormCheck. Separate label and check if true |
+| isvalid | Boolean add :is-valid or :is-invalid to input class |
+| **onvalidate** | function(value) {return value_is-valid }. Add a validation check for input and add isvalid argument |
+
+See also [Form Layout](http://familiecommer.de/vanjs-bootstrap-demo/#formlay) and [Form Validation](http://familiecommer.de/vanjs-bootstrap-demo/#formval) in the online demo.
+
+
+
+
 <details>
   <summary>Show FormBuilder Code</summary>
 
 ## FormBuilder Code
 
 ```javascript
-export function FormBuilder ({dom, values}={}) {
+export function FormBuilder ({dom, values, rowClass="", formClass="", cols, autoRow, bsSize, id, onChange}={}) {
+    
+    const toInt = v => {let n=Number(v); return isNaN(n) ? 0 :n};
+    
+    const splitCols = c => {let [l, r] = c.split(' '); l=toInt(l); r=toInt(r);
+       r = r ? r : 12-l; 
+       return {l,r,t:l+r,s:l+' '+r}
+    };
+
     var fc = FormController({values});
+    onChange && fc.onChange(onChange);
+
     var self = {
         ...fc,
-        dom: dom ?? van.tags('form'),
+        dom: dom ?? van.tags.form({class: formClass}),
         row: null,
-        add (props, dom) {
-            let {name, value, oninput, ...rest} = props;
+        rowClass,
+        cols,
+        autoRow,
+        colCount: 0,
+        id: id ?? Math.random().toString(36).substring(2, 9),
+
+        valid: {},
+        onvalidate: {},
+        getFormValid: () => Object.keys(self.valid).every( k => self.valid[k].val ),
+
+        add (props, ...children) {
+            let {name, value, oninput, cols, onvalidate, ...rest} = props;
             if(value === undefined && name) value = self.values[name];
             let args = {...rest, ...fc.args({name, value, oninput}) };
-            van.add(dom ?? self.row ?? self.dom, FormGroup(args));
+            args.id = args.id || self.id + '-' + name;
+            if(bsSize && args.bsSize === undefined) args.bsSize = bsSize;
+            args.cols = cols || self.cols;
+            if(self.autoRow) {
+                cols = splitCols(args.cols);
+                if(!self.row) { self.addRow(); self.colCount = 0; } 
+                self.colCount += cols.t;
+                args.cols = cols.s;
+                if(self.colCount > 12) {
+                    self.addRow();
+                    self.colCount = cols.t;
+                }
+            }
+
+            if(onvalidate) {
+                self.onvalidate[args.name] = onvalidate;
+                self.valid[args.name] = van.state(onvalidate(self.values[args.name]));
+                args.isvalid = self.valid[args.name];
+            }
+    
+            self.addGroup(args,...children);
             return self;
+        },
+        addGroup(args,...children) {
+            van.add(self.row ?? self.dom, FormGroup(args,...children));
         },
         addRow (arg) {
             if(arg === null) return self.row=null;
-            self.row = div({class: "row" + (arg ? ' '+arg : '')});
+            self.row = div({class: "row" + (self.rowClass ? ' '+self.rowClass : '') + (arg ? ' '+arg : '')});
             van.add(self.dom, self.row);
             return self;
-        }
+        },
     }
+
+    self.onChange((name,value) => {
+        if(self.onvalidate[name]) self.valid[name].val = self.onvalidate[name](value);
+    });
+
     return self;
 }
 ```
@@ -1277,6 +1439,155 @@ function CbControl({class: clas, bsSize, ...props}) {
 
 ----
 
+<a name="dragsort" />
+
+# DragSort
+
+A helper to sort a list per drag and drop.
+
+> ### `export function DragSort (list, setList)`
+
+- list:  array to be sorted
+- setList: function to store reordered list
+
+Function DragSort returns an object with all required function. The function dragProps of the object can inject all html attributes like draggable, ondragstart and so on.
+
+The function used to be a React Hook, but works great in VanJs and is now used in this library by TagInput.
+
+Usage example:
+
+```javascript
+import van          from 'vanjs-core';
+import { DragSort } from 'vanjs-bootstrap';
+
+const {div, h2} = van.tags;
+
+const gitems = van.state(["A","B","C"])
+
+function MyList () {
+    const drag = DragSort(gitems.val, v => gitems.val=v);  // create drag sort object
+    const items = gitems.val.map( (item,index) => {
+        return van.tags.li({
+            class: () => "list-group-item",
+            ...drag.dragProps(index)                // inject properties
+            },
+            item
+        )
+    });
+    return van.tags.ul({class: "list-group"}, ...items)
+}
+
+export default function Page() {
+    return div({},
+        h2('DragSort Demo'),
+        MyList,
+    )
+}
+
+```
+<br />
+
+----
+
+<a name="i18n" />
+
+# i18n
+
+Translation tool. A very simple object for multilingual texts. The texts are stored in the variable `dict` and are divided into language and chapter.
+
+The current language is set with the `setLanguage` function. The texts are retrieved with the function `t`. Texts are added with the `addWords` function.
+
+
+
+
+## Interface
+
+- **dict**  
+object tree structured according to language, chapter and subchapter  
+
+- **getLanguage**()  
+  current language  
+
+- **setLanguage**(newLanguage)  
+
+- **t**('category.key')  
+  returns the text of the current language to a key. 
+  the key contains the category, the subcategory and the actual key, separated by a dot  
+
+- **tPath**('category')  
+  returns a `t` function for a category  
+
+- **addWords**(words, [lang], [chapter])  
+  inserts an object tree with texts into the dict  
+
+
+## Example
+
+Create a translation instance and add imported JSON files.
+
+```javascript
+import {I18n}  from 'vanjs-bootstrap';
+import lang_en from './en.json';
+import lang_de from './de.json';
+
+const i18n = I18n();
+
+i18n.addWords( lang_en, 'en' );
+i18n.addWords( lang_de, 'de' );
+
+let nl = (navigator?.language || 'en').substring(0,2);
+i18n.setLanguage(nl);
+
+const {t, tPath, getLanguage, setLanguage} = i18n;
+export { t, tPath, getLanguage, setLanguage };
+```
+
+<p/>
+
+Toggle language in your App.
+
+```javascript
+import van  from 'vanjs-core';
+import { tPath, getLanguage, setLanguage }  from './i18n'
+
+const tNav = tPath('nav');  // translate function for chapter 'nav'
+
+const lang = van.state(getLanguage());
+
+// use this in NavBar
+const toggleLanguage = () => a({
+    class: "nav-link", 
+    href: "#", 
+    onclick: () => {
+        let l = (lang.val === 'en') ? 'de' : 'en'
+        setLanguage(l);
+        lang.val = l;
+        return false;
+    },
+    title: tNav('lang-title') 
+    }, 
+    tNav('lang')
+);
+
+
+export default function App() {
+    return () => div(
+        {lang: lang.val}, // inject lang will redraw app on language change
+        AppNav,
+        div({class: "container"}, 
+            div({class: "row justify-content-md-center"},
+                div({class: "col-10 p-4 m-2 border rounded-2"}, 
+                ctrl.pageDom.val())
+            )
+        ),
+    )
+}
+```
+
+<br />
+
+----
+
 <a name="icons" />
 
 # Icons
@@ -1584,158 +1895,16 @@ return input({type: 'select', value: fontName}, selectOptions(fontNames, true, f
 
 ----
 
-<a name="dragsort" />
-
-# DragSort
-
-A helper to sort a list per drag and drop.
-
-> ### `export function DragSort (list, setList)`
-
-- list:  array to be sorted
-- setList: function to store reordered list
-
-Function DragSort returns an object with all required function. The function dragProps of the object can inject all html attributes like draggable, ondragstart and so on.
-
-The function used to be a React Hook, but works great in VanJs and is now used in this library by TagInput.
-
-Usage example:
-
-```javascript
-import van          from 'vanjs-core';
-import { DragSort } from 'vanjs-bootstrap';
-
-const {div, h2} = van.tags;
-
-const gitems = van.state(["A","B","C"])
-
-function MyList () {
-    const drag = DragSort(gitems.val, v => gitems.val=v);  // create drag sort object
-    const items = gitems.val.map( (item,index) => {
-        return van.tags.li({
-            class: () => "list-group-item",
-            ...drag.dragProps(index)                // inject properties
-            },
-            item
-        )
-    });
-    return van.tags.ul({class: "list-group"}, ...items)
-}
-
-export default function Page() {
-    return div({},
-        h2('DragSort Demo'),
-        MyList,
-    )
-}
-
-```
-<br />
-
-----
-
-<a name="i18n" />
-
-# i18n
-
-Translation tool. A very simple object for multilingual texts. The texts are stored in the variable `dict` and are divided into language and chapter.
-
-The current language is set with the `setLanguage` function. The texts are retrieved with the function `t`. Texts are added with the `addWords` function.
-
-
-
-
-## Interface
-
-- **dict**  
-object tree structured according to language, chapter and subchapter  
-
-- **getLanguage**()  
-  current language  
-
-- **setLanguage**(newLanguage)  
-
-- **t**('category.key')  
-  returns the text of the current language to a key. 
-  the key contains the category, the subcategory and the actual key, separated by a dot  
-
-- **tPath**('category')  
-  returns a `t` function for a category  
-
-- **addWords**(words, [lang], [chapter])  
-  inserts an object tree with texts into the dict  
-
-
-## Example
-
-Create a translation instance and add imported JSON files.
-
-```javascript
-import {I18n}  from 'vanjs-bootstrap';
-import lang_en from './en.json';
-import lang_de from './de.json';
-
-const i18n = I18n();
-
-i18n.addWords( lang_en, 'en' );
-i18n.addWords( lang_de, 'de' );
-
-let nl = (navigator?.language || 'en').substring(0,2);
-i18n.setLanguage(nl);
-
-const {t, tPath, getLanguage, setLanguage} = i18n;
-export { t, tPath, getLanguage, setLanguage };
-```
-
-<p/>
-
-Toggle language in your App.
-
-```javascript
-import van  from 'vanjs-core';
-import { tPath, getLanguage, setLanguage }  from './i18n'
-
-const tNav = tPath('nav');  // translate function for chapter 'nav'
-
-const lang = van.state(getLanguage());
-
-// use this in NavBar
-const toggleLanguage = () => a({
-    class: "nav-link", 
-    href: "#", 
-    onclick: () => {
-        let l = (lang.val === 'en') ? 'de' : 'en'
-        setLanguage(l);
-        lang.val = l;
-        return false;
-    },
-    title: tNav('lang-title') 
-    }, 
-    tNav('lang')
-);
-
-
-export default function App() {
-    return () => div(
-        {lang: lang.val}, // inject lang will redraw app on language change
-        AppNav,
-        div({class: "container"}, 
-            div({class: "row justify-content-md-center"},
-                div({class: "col-10 p-4 m-2 border rounded-2"}, 
-                ctrl.pageDom.val())
-            )
-        ),
-    )
-}
-```
-
-<br />
-
-----
-
 <a name="history" />
 
 ## History
+
+- 1.0.5  
+  bugfix  
+  FormBuilder enhance  
+
+<details>
+  <summary>older</summary>
 
 - 1.0.4  
   FormBuilder change  
@@ -1743,9 +1912,6 @@ export default function App() {
   add [TagInput](#taginput)  
   add [DragSort](#dragsort)  
   add tag option for [MenuItem](#menuitem)  
-
-<details>
-  <summary>older</summary>
 
 - 1.0.3  
   Modal header style  

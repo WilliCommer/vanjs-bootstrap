@@ -1,10 +1,10 @@
 {
 	"name": "vanjs-bootstrap",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "component library using VanJs and Bootstrap",
 	"keywords": ["VanJs", "Bootstrap", "UI", "Component", "Library"],
 	"license": "MIT",
-	"author": "wcs",
+	"author": "Willi Commer",
 	"source": "src/index.js",
 	"main": "./dist/lib.js",
 	"module": "./dist/lib.module.mjs",

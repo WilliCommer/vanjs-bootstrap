@@ -53,6 +53,7 @@ function TagInput ({
     commaValue      = true,     // value is array of string or comma separated value 
     options         = [],       // optional array of string to be used in select list
     oninput,                    // required, value change event feedback
+    disabled,
     onContextMenu,              // optional function( event, item )
     dragSort        = true,     // allow items drag'n drop
     delIcon         = 'none',   // "Remove Cross" position 'left','right','none'
@@ -83,6 +84,7 @@ function TagInput ({
         items: van.state(value),
         listvalue: van.state(value),
         options: updateOptions(options, value),
+        disabled,
         onContextMenu,
         dragSort, delIcon, orderIcon, allowCreate, multi, closeOnCheck, bsSize,
         tagColor: tagColor || T_COLOR,
@@ -149,7 +151,7 @@ function TagInput ({
         },
     };
 
-    dropdownBtn = Button({dropdown: true});
+    dropdownBtn = Button({dropdown: true, disabled});
     tagOptions  = TagOptions({tagData});
 
 
@@ -180,7 +182,7 @@ function TagList({tagData}) {
         ));
     }
 
-    const drag = (tagData.dragSort && tagData.multi) ? DragSort(tagData.listvalue.val, v => tagData.saveItems(v)) : false;
+    const drag = (tagData.dragSort && tagData.multi && !tagData.disabled) ? DragSort(tagData.listvalue.val, v => tagData.saveItems(v)) : false;
 
     var list = tagData.listvalue.val.map( (item, idx) => TagItem({tagData, item, idx, drag}) );
 

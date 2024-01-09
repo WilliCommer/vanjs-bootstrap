@@ -1,7 +1,8 @@
 import van from 'vanjs-core';
 import selectOptions from './select-options';
+// import {selectOptions} from 'vanjs-bootstrap';
 
-const {a, button, div, input, label, textarea, li, ul, select} = van.tags;
+const {button, div, input, label, textarea, select} = van.tags;
 
 
 export var typeMap = new Map();
@@ -14,18 +15,6 @@ typeMap.set( 'checkbox',        FormCheckInput);
 typeMap.set( 'radio',           FormCheckInput);
 typeMap.set( 'switch',          FormCheckInput);
 typeMap.set( 'combobox',        ComboboxInput);
-
-
-
-export function Input({class: clas, bsSize, ...props}) {
-    const cl = () => {
-        let res = 'form-control';
-        if(van.val(bsSize)) res += ' form-control-' + van.val(bsSize);
-        if(van.val(clas)) res += ' ' + van.val(clas);
-        return res;
-    }
-    return input({class: cl, ...props});
-}
 
 
 export function FormLabel({class: clas, bsSize, col, ...props}, children) {
@@ -50,11 +39,24 @@ export function FormLabel({class: clas, bsSize, col, ...props}, children) {
 }
 
 
-export function Textarea({class: clas, bsSize, ...props}) {
+export function Input({class: clas, isvalid, bsSize, ...props}) {
     const cl = () => {
         let res = 'form-control';
         if(van.val(bsSize)) res += ' form-control-' + van.val(bsSize);
         if(van.val(clas)) res += ' ' + van.val(clas);
+        if(isvalid != undefined) res += van.val(isvalid) ? ' is-valid' : ' is-invalid';
+        return res;
+    }
+    return input({class: cl, ...props});
+}
+
+
+export function Textarea({class: clas, isvalid, bsSize, ...props}) {
+    const cl = () => {
+        let res = 'form-control';
+        if(van.val(bsSize)) res += ' form-control-' + van.val(bsSize);
+        if(van.val(clas)) res += ' ' + van.val(clas);
+        if(isvalid != undefined) res += van.val(isvalid) ? ' is-valid' : ' is-invalid';
         return res;
     }
     return textarea({class: cl, ...props});
@@ -62,11 +64,12 @@ export function Textarea({class: clas, bsSize, ...props}) {
 
 
 
-export function SelectInput ({class: clas, bsSize, ...props}) {
+export function SelectInput ({class: clas, isvalid, bsSize, ...props}) {
     const cl = () => {
         let res = 'form-select';
         if(van.val(bsSize)) res += ' form-select-' + van.val(bsSize);
         if(van.val(clas)) res += ' ' + van.val(clas);
+        if(isvalid != undefined) res += van.val(isvalid) ? ' is-valid' : ' is-invalid';
         return res;
     }
 
@@ -81,15 +84,21 @@ export function SelectInput ({class: clas, bsSize, ...props}) {
 
 
 
-export function RadioSelectInput ({options, class: clas, bsSize, inline, id, ...props}) {
+export function RadioSelectInput (args) {
 
-    let name = props.name || Math.random().toString(36).substring(2, 9);
+    var {
+        options, class: clas, bsSize, inline, id,
+        oninput, name, value, disabled, isvalid,
+        ...props
+    } = args;
+
+    name = name || Math.random().toString(36).substring(2, 9);
     id = id || 'rgi_' + name
     options = selectOptions(options);
 
-    const oninput = ev => {
+    const iteminput = ev => {
         let value = ev.target.value;
-        props.oninput && props.oninput({target: { 
+        oninput && oninput({target: { 
             name, 
             value, 
             type:   'radiogroup'
@@ -107,28 +116,32 @@ export function RadioSelectInput ({options, class: clas, bsSize, inline, id, ...
                 id:         itemId,
                 value:      option.value,
                 name,
-                checked:    props.value === option.value,
-                oninput,
+                checked:    value === option.value,
+                oninput:    iteminput,
+                disabled,
             }),
             label({ class: 'form-check-label', for: itemId }, option.children)
         );
     });
 
-    return div( 
-        {
-            class: () => {
-                let res = 'form-control';
-                if(van.val(bsSize)) res += ' form-control-' + van.val(bsSize);
-                if(van.val(clas)) res += ' ' + van.val(clas);
-                return res;
-        }},
+    return div({
+        class: () => {
+            let res = 'form-control';
+            if(van.val(bsSize)) res += ' form-control-' + van.val(bsSize);
+            if(van.val(clas)) res += ' ' + van.val(clas);
+            if(isvalid != undefined) res += van.val(isvalid) ? ' is-valid' : ' is-invalid';
+            return res;
+            },
+            disabled,
+            ...props
+        },
         items,
     )
 }
 
 
 
-export function FormCheckInput ({label: clabel, type, class: clas, style, bsSize, reverse, id, value, ...props}) {
+export function FormCheckInput ({label: clabel, type, class: clas, style, bsSize, reverse, id, value, isvalid, ...props}, ...children) {
 
     id = id || Math.random().toString(36).substring(2, 9);
 
@@ -137,6 +150,7 @@ export function FormCheckInput ({label: clabel, type, class: clas, style, bsSize
     if(isSwitch) type = 'checkbox';
 
     const oninput = ev => {
+        ev.stopPropagation();
         var {checked, name, type} = ev.target;
         checked = !!checked;
         props.oninput({
@@ -167,7 +181,11 @@ export function FormCheckInput ({label: clabel, type, class: clas, style, bsSize
         },
         input({
             ...props,
-            class: 'form-check-input',
+            class: () => {
+                let res = 'form-check-input';
+                if(isvalid != undefined) res += van.val(isvalid) ? ' is-valid' : ' is-invalid';
+                return res;
+            },
             id,
             type,
             checked: value || false,
@@ -175,7 +193,8 @@ export function FormCheckInput ({label: clabel, type, class: clas, style, bsSize
             role: isSwitch ? 'switch' : undefined,
             },
         ),
-        Label
+        Label,
+        ...children
     )
 }
 
@@ -211,12 +230,14 @@ export const RadioInput = props => FormCheckInput({...props, type: 'radio'});
 */
 
 export function ComboboxInput (props) {
-
+    const {a,div,ul,li} = van.tags;
     var {
         options = [],
         style,
         bsSize,
         onItemClick,
+        disabled,
+        isvalid,
         ...inputProps                                               // name, value, oninput ...
     } = props;
 
@@ -261,11 +282,13 @@ export function ComboboxInput (props) {
             let res = 'input-group';
             if(van.val(props.bsSize)) res += ' input-group-' + van.val(props.bsSize);
             if(van.val(props.class)) res += ' ' + van.val(props.class);
+            if(isvalid != undefined) res += van.val(isvalid) ? ' is-valid' : ' is-invalid';
             return res;
         }},
 
         Input({
             ...inputProps,
+            disabled,
             value: dvalue,
             oninput: event => {
                 let {value} = event.target;
@@ -280,53 +303,75 @@ export function ComboboxInput (props) {
             }
         }),
 
-        div({class: "dropdown"},
-            button({class: "btn btn-secondary dropdown-toggle", type: "button", "data-bs-toggle": "dropdown", "aria-expanded": "false"}),
-            ul({class: "dropdown-menu"},
-                options.map( (o) => li(
-                    a({
-                        class: "dropdown-item", href: "#",
-                        onclick: () => selectClick(o.children)
-                    }, o.children)
-                ))
-            )
+        Button({dropdown: "true", disabled}),
+        ul({class: "dropdown-menu"},
+            options.map( (o) => li(
+                a({
+                    class: "dropdown-item", href: "#",
+                    onclick: () => selectClick(o.children)
+                }, o.children)
+            ))
         )
     )
 }
 
 
 
-export function FormGroup({ name, label, input, class: clas, bsSize, cols,id, ...props}) {
+export function FormGroup({ name, label, input, class: clas, inputClass, bsSize, cols, col, id, separated, ...props}, ...children) {
     const cl = () => {
         let res = '';
         if(van.val(clas)) res += ' ' + van.val(clas);
         return res;
     }
     let g_id = id ?? Math.random().toString(36).substring(2, 9);
-    let i_id = 'i_' + g_id;
+    let i_id = g_id + '-i';
     let domInput = input ?? typeMap.get(props.type) ?? Input;
+    let ischeck = ['checkbox','radio','switch'].includes(props.type);
+
+    let inputEl, labelEl;
+    if(ischeck) {
+        if(separated) {
+            labelEl = FormLabel({bsSize, for: i_id}, label);
+            inputClass = (inputClass ?? '') + ' mt-2';
+            inputEl = domInput({bsSize, name, id: i_id, class: inputClass, ...props}, ...children);
+        } else {
+            labelEl = null;
+            inputEl = domInput({bsSize, name, id: i_id, class: inputClass, label, ...props}, ...children);
+        }
+        children = [];
+    } else {
+        labelEl = FormLabel({bsSize, for: i_id}, label);
+        inputEl = domInput({bsSize, name, id: i_id, class: inputClass, ...props});
+    }
 
     if(cols) {
         let [col_l, col_r] = cols.split(' ');
-        return [
-            FormLabel({bsSize, col: col_l, for: i_id}, label),
-            div({
-                class: () => {
-                    let res = col_r ? `col-${col_r}` : 'col';
-                    if(['checkbox','radio','switch'].includes(props.type)) res += ' pt-2';
-                    return res;
-                }},
-                domInput({bsSize, name, id: i_id, ...props})
-            )
-        ]
+        col_r = col_r || 12 - Number(col_l);
+        var res = [];
+        if(labelEl) 
+            res.push(FormLabel({bsSize, col: col_l, id: g_id + '-l', for: i_id}, label));
+        else
+            res.push(div({class: col_l ? `col-${col_l}` : 'col'}));
+        res.push(div({class: col_r ? `col-${col_r}` : 'col'}, inputEl, ...children));
+        return res;
     }
 
+    if(col) {
+        return div({class: col},
+            labelEl,
+            inputEl,
+            ...children
+        );
+    }
 
     return div({class: cl, id: g_id, ...props},
-        FormLabel({bsSize, for: i_id}, label),
-        domInput({bsSize, name, id: i_id, ...props})
+        labelEl,
+        inputEl,
+        ...children
     );
 }
+
+
 
 export function FormController ({values} = {}) {
     const isVanState = v => van.val(v) !== v;
@@ -351,32 +396,81 @@ export function FormController ({values} = {}) {
             value = value ?? self.values[name] ?? '';
             self.values[name] = value;
             return {name, value, oninput}
-        }
+        },
     }
     return self;
 }
 
 
-export function FormBuilder ({dom, values}={}) {
+
+export function FormBuilder ({dom, values, rowClass="", formClass="", cols, autoRow, bsSize, id, onChange}={}) {
+    
+    const toInt = v => {let n=Number(v); return isNaN(n) ? 0 :n};
+    
+    const splitCols = c => {let [l, r] = c.split(' '); l=toInt(l); r=toInt(r);
+       r = r ? r : 12-l; 
+       return {l,r,t:l+r,s:l+' '+r}
+    };
+
     var fc = FormController({values});
+    onChange && fc.onChange(onChange);
+
     var self = {
         ...fc,
-        dom: dom ?? van.tags('form'),
+        dom: dom ?? van.tags.form({class: formClass}),
         row: null,
-        add (props, dom) {
-            let {name, value, oninput, ...rest} = props;
+        rowClass,
+        cols,
+        autoRow,
+        colCount: 0,
+        id: id ?? Math.random().toString(36).substring(2, 9),
+
+        valid: {},
+        onvalidate: {},
+        getFormValid: () => Object.keys(self.valid).every( k => self.valid[k].val ),
+
+        add (props, ...children) {
+            let {name, value, oninput, cols, onvalidate, ...rest} = props;
             if(value === undefined && name) value = self.values[name];
             let args = {...rest, ...fc.args({name, value, oninput}) };
-            van.add(dom ?? self.row ?? self.dom, FormGroup(args));
+            args.id = args.id || self.id + '-' + name;
+            if(bsSize && args.bsSize === undefined) args.bsSize = bsSize;
+            args.cols = cols || self.cols;
+            if(self.autoRow) {
+                cols = splitCols(args.cols);
+                if(!self.row) { self.addRow(); self.colCount = 0; } 
+                self.colCount += cols.t;
+                args.cols = cols.s;
+                if(self.colCount > 12) {
+                    self.addRow();
+                    self.colCount = cols.t;
+                }
+            }
+
+            if(onvalidate) {
+                self.onvalidate[args.name] = onvalidate;
+                self.valid[args.name] = van.state(onvalidate(self.values[args.name]));
+                args.isvalid = self.valid[args.name];
+            }
+    
+            self.addGroup(args,...children);
             return self;
+        },
+        addGroup(args,...children) {
+            van.add(self.row ?? self.dom, FormGroup(args,...children));
         },
         addRow (arg) {
             if(arg === null) return self.row=null;
-            self.row = div({class: "row" + (arg ? ' '+arg : '')});
+            self.row = div({class: "row" + (self.rowClass ? ' '+self.rowClass : '') + (arg ? ' '+arg : '')});
             van.add(self.dom, self.row);
             return self;
-        }
+        },
     }
+
+    self.onChange((name,value) => {
+        if(self.onvalidate[name]) self.valid[name].val = self.onvalidate[name](value);
+    });
+
     return self;
 }
 
