@@ -30,7 +30,8 @@ export function ModalFrame (args = {}) {
 
     const dialogClass = "modal-dialog" 
       + (centered ? " modal-dialog-centered" : "")
-      + (scrollable ? " modal-dialog-scrollable" : "");
+      + (scrollable ? " modal-dialog-scrollable" : "")
+      + (modalClass ? " "+modalClass : "");
 
     const contentClass = "modal-content" + (color ? " " + color : "");
 

@@ -48,10 +48,11 @@ export default function DragSort (list, setList) {
         dragProps (index) {
             return {
                 draggable:      true,
-                ondragstart:    self.onDragStart,
-                ondrop:         self.onDrop,
-                ondragover:     self.onDragOver,
-                ondragleave:    self.onDragLeave,
+                ondragstart:    self.ondragstart,
+                ondragend:      self.ondragend,
+                ondrop:         self.ondrop,
+                ondragover:     self.ondragover,
+                ondragleave:    self.ondragleave,
                 "data-position": index,
             }
         },
@@ -60,9 +61,10 @@ export default function DragSort (list, setList) {
             return self.dragAndDrop && self.dragAndDrop.draggedTo=== Number(index);
         },
 
-        onDragStart (event) {
+        ondragstart (event) {
             let initialPosition = Number(event.currentTarget.dataset.position);
             // log('onDragStart', initialPosition);
+            event.target.classList.add("dragging");
             self.setDragAndDrop({
                 ...self.dragAndDrop,
                 draggedFrom:    initialPosition,
@@ -71,8 +73,18 @@ export default function DragSort (list, setList) {
             });
             event.dataTransfer.setData("text/html", '');      // for Firefox.
         },
+
+        ondragend (event) {
+            event.target.classList.remove("dragging");
+            self.setDragAndDrop({
+                ...self.dragAndDrop,
+                draggedFrom:    null,
+                draggedTo:      null,
+                isDragging:     false
+            });
+        },
     
-        onDragOver (event) {
+        ondragover (event) {
             event.preventDefault();
             let newList     = self.dragAndDrop.originalOrder;
             let draggedFrom = self.dragAndDrop.draggedFrom; 
@@ -93,7 +105,7 @@ export default function DragSort (list, setList) {
             }
         },
    
-        onDrop (event) {
+        ondrop (event) {
             setList(self.dragAndDrop.updatedOrder);
             self.setDragAndDrop({
                 ...self.dragAndDrop,
@@ -103,7 +115,7 @@ export default function DragSort (list, setList) {
             });
         },
    
-        onDragLeave () {
+        ondragleave () {
             self.setDragAndDrop({
                 ...self.dragAndDrop,
                 draggedTo: null

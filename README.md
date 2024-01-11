@@ -40,11 +40,15 @@ For a long time I built my UIs with React and Bootstrap. Then I met VanJs and am
 
 ## Installation
 
-To use this library you also need VanJs and Bootstrap.
-
 ```batch
-npm install vanjs-core bootstrap vanjs-bootstrap
+npm install vanjs-bootstrap
 ```
+
+will also install bootstrap and vanjs-core
+
+### Create A App
+
+I recommend Vite as a development environment.
 
 main.js
 
@@ -58,6 +62,32 @@ const app = document.querySelector("#app");
 van.add(app, App());
 ```
 
+app.js is something like this
+
+```javascript
+import van      from 'vanjs-core';
+import {Navbar} from 'vanjs-bootstrap';
+import Page     from './page';
+
+const appMenu = {
+    items: [
+        {label: 'Home', href: '#home'},
+        ...
+    ]
+}
+
+export default function App() {
+    return () => div(
+        Navbar({menu: appMenu}),
+        div({class: "container"}, 
+            div({class: "row justify-content-md-center"},
+                div({class: "col-10 p-4 m-2 border rounded-2"}, 
+                Page()
+            )
+        ),
+    )
+}
+```
 
 <br />
 
@@ -219,7 +249,7 @@ See [FormBuilder Demo](#formbuilder) for example.
 | bsSize | Bootstrap size |
 | cols | space separated string "left right" for the Bootstrap column sizes i.e. "3 6" |
 | col | Bootstrap column size of the group alternative to cols. Used for form class "row g-3" |
-| id | HTML id of group. Will get random id if omited. Label id is it+'-l', input id is id + '-i' |
+| id | HTML id of group. Will get random id if omited. Label id is id+'-l', input id is id + '-i' |
 | separated | special for FormCheck. Separate label and check if true |
 | ...props | passed to input control |
 | ...children | appendix for input control like :form-text :valid-feedback or :invalid-feedback |
@@ -306,6 +336,7 @@ The FormBuilder inherits from [FormController](#formcontroller). With it you can
 - Finish a row with `addRow(null)` or `addRow(class)` for next row
 - Add a form group with label and input control with `add(props)`
 - Add the form into dom tree with variable `dom`
+- Check form validation with `getFormValid()` when `onvalidate` is used in `add`
 
 ## Usage
 
@@ -906,10 +937,10 @@ div(
         id:      "exampleModal",
         header:  "Modal title",
         body:    "Modal body text goes here.",
-        footer:  div(
+        footer: [
             Button({"data-bs-dismiss": "modal"}, 'Close'),
             Button({color: "primary"}, 'Save changes'),
-        )
+        ]
     })
 );
 ```
@@ -944,7 +975,7 @@ div(
   A optional diallog width like "20em" or "fit-content"  
 
 - **class**  
-  An additional class  
+  An additional class i.e. "modal-fullscreen"  
 
 <br/>
 
@@ -1066,7 +1097,7 @@ const LoginDlg = ({name, pw}) => {
 
     // focus first input after open
     dlg.onShown = () => {
-        document.getElementById('i_login-dlg-name').focus()
+        document.getElementById(fb.id + '-name-i').focus()
     };
 
     return dlg;
@@ -1453,6 +1484,8 @@ A helper to sort a list per drag and drop.
 Function DragSort returns an object with all required function. The function dragProps of the object can inject all html attributes like draggable, ondragstart and so on.
 
 The function used to be a React Hook, but works great in VanJs and is now used in this library by TagInput.
+
+During dragging CSS :dragging is set.
 
 Usage example:
 
@@ -1899,12 +1932,15 @@ return input({type: 'select', value: fontName}, selectOptions(fontNames, true, f
 
 ## History
 
-- 1.0.5  
-  bugfix  
-  FormBuilder enhance  
+- 1.0.6  
+  bugfix Modal class
 
 <details>
   <summary>older</summary>
+
+- 1.0.5  
+  bugfix  
+  FormBuilder enhance  
 
 - 1.0.4  
   FormBuilder change  
