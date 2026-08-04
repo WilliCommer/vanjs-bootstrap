@@ -4,9 +4,20 @@ Icons, the small images used on buttons or in the text, make the UI appealing an
 
 The library contains simple functions for displaying and managing icons from different sources.
 
+- [Icon](#icon)
+- [Icon Map](#icon-map)
+- [setIcon](#function-seticon-key-icon)
+- [getIcon](#function-geticon-key)
+- [setWarning](#function-setwarning-value)
+- [SvgIconBase](#function-svgiconbase-props---children)
+- [ImgIcon](#function-imgicon-src-alt-rest)
+- [SvgStrIcon](#function-svgstricon-str-svgargs--)
+
+
+
 ## Icon
 
-> ##### function Icon( anything, {size, ...props} )
+> ### `function Icon( anything, {size, ...props} )`
 
 The function icon displays icons on different sources.
 
@@ -38,7 +49,7 @@ The function icon displays icons on different sources.
 - **VanJs function**  
 
 ```javascript
-  const {path} = van.tagsNS("http://www.w3.org/2000/svg");  
+  const {path} = van.tags("http://www.w3.org/2000/svg");  
   anything = props => SvgIconBase({viewBox: "0 0 16 16", ...props},  
     path({d: "M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"})  
   );  
@@ -58,7 +69,7 @@ Other '...props' like 'class' or 'style' are passed on.
 
 ## Icon Map
 
-> ##### export var iconMap = new Map()
+> ### `export var iconMap = new Map()`
 
 Variable **iconMap** is a JavaScript Map to store icon by key. It is recommended to store icons here and display them with `Icon('key')`.
 The best approach is to create an icon library.
@@ -70,7 +81,7 @@ import van from 'vanjs-core';
 import {setIcon, ImgIcon, SvgStrIcon, SvgIconBase} from 'vanjs-bootstrap';
 import FormLogo from './form-lib.svg?raw';
 
-const {path} = van.tagsNS("http://www.w3.org/2000/svg");
+const {path} = van.tags("http://www.w3.org/2000/svg");
 
 const sun = props => SvgIconBase({viewBox: "0 0 16 16", ...props},
     path({d: "M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"})
@@ -104,7 +115,7 @@ export default function App() {
 
 ```
 
-> ##### function setIcon (key, icon)
+> ### `function setIcon (key, icon)`
 
 Sets an icon to a key. *icon* should be a function to pass arguments of the function Icon.
 Icons can also be derived from other icons.
@@ -112,12 +123,12 @@ Icons can also be derived from other icons.
 `setIcon( 'LOGO', props => Icon('VANLOGO', props) )`
 
 
-> ##### function getIcon (key)
+> ### `function getIcon (key)`
 
 Gets an icon by key.
 
 
-> ##### function setWarning (value)
+> ### `function setWarning (value)`
 
 This is useful for debugging. Value is
 
@@ -155,7 +166,7 @@ function ShowIconMap() {
 
 ## Icon Transformers
 
-> ##### function SvgIconBase (props = {}, ...children) {
+> ### `function SvgIconBase (props = {}, ...children)`
 
 Is a base component wrapper for SVG icons build as VanJs function.
 The idea behind is to have a SVG image that size is 1em. So it fit to font-size.
@@ -173,7 +184,7 @@ The icon size (width and height) can be changed by "size" property.
 
 ```javascript
 function MyIcon (props) {
-  const {rect} = van.tagsNS("http://www.w3.org/2000/svg");
+  const {rect} = van.tags("http://www.w3.org/2000/svg");
   return SvgIconBase({viewBox: "0 0 100 100", ...props},
     rect({x:"11.5", y:"9.4", width:"80", height:"80", rx:"4.4444", ry:"4.4444" stroke-width:"8"})
   )
@@ -182,7 +193,7 @@ function MyIcon (props) {
 
 
 
-> ##### function GenIcon(data)
+> ### `function GenIcon(data)`
 
 This function returns a Icon function, where data is a svg data tree:
 
@@ -202,7 +213,7 @@ const moon = GenIcon({
 });
 ```
 
-> ##### function ImgIcon ({src, alt, ...rest})
+> ### `function ImgIcon ({src, alt, ...rest})`
 
 Create a Icon function by image url. The "size" is injected as style so we can use units like "em".
 For original size use "inherit".
@@ -211,14 +222,14 @@ If "alt" is not specified, the last part of the URL is used for this
 `setIcon( 'KEY', ImgIcon({src: "img/key.png"}))``
 
 
-> ##### function SvgStrIcon (str, svgargs = {}) {
+> ### `function SvgStrIcon (str, svgargs = {})`
 
 Create a Icon function from a SVG string. svgargs will overwrite svg attributes like fill and stroke.
 
 ```javascript
 SvgStrIcon(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><circle cx="5" cy="5" r="3"/></svg>',
-  {fill: 'currentColor', stroke: 'currenColor}
+  {fill: 'currentColor', stroke: 'currenColor'}
 )
 ```
 

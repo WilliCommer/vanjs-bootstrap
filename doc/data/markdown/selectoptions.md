@@ -1,6 +1,6 @@
 # SelectOptions
 
-`function selectOptions (list, dom=false, selected)`
+> ### `function selectOptions (list, dom=false, selected)`
 
 All form controls in this library use the selectOptions function. This converts different kind of lists into a uniform format that can easily be mapped into a dom.
 Is the `dom` parameter `true`, the function returns a ready mapped dom `option` list.

@@ -222,7 +222,7 @@ export const RadioInput = props => FormCheckInput({...props, type: 'radio'});
         // out
         oninput(event),                                        // require
 
-        onItemClick,  (value,selItem) => must return value !    // optional
+        onitemclick,  (value,selItem) => must return value !    // optional
         - vaue = selItem.value
         - selItem = [text,value]  
     }
@@ -235,9 +235,8 @@ export function ComboboxInput (props) {
         options = [],
         style,
         bsSize,
-        onItemClick,
+        onitemclick,
         disabled,
-        isvalid,
         ...inputProps                                               // name, value, oninput ...
     } = props;
 
@@ -261,12 +260,12 @@ export function ComboboxInput (props) {
         let {name,type} = props;
         value = displayToValue(options, value);
 
-        if (onItemClick) {                                          // this event is handeld external
+        if (onitemclick) {                                          // this event is handeld external
             let selItem = options.find( o => o.children === value );
-            value = onItemClick(value,selItem);
+            value = onitemclick(value,selItem);
         }
 
-        props.oninput({                                            // set input to clicked value
+        props.oninput && props.oninput({                                            // set input to clicked value
             target: {name, value, type}
         });
 
@@ -282,7 +281,6 @@ export function ComboboxInput (props) {
             let res = 'input-group';
             if(van.val(props.bsSize)) res += ' input-group-' + van.val(props.bsSize);
             if(van.val(props.class)) res += ' ' + van.val(props.class);
-            if(isvalid != undefined) res += van.val(isvalid) ? ' is-valid' : ' is-invalid';
             return res;
         }},
 

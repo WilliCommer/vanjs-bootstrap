@@ -11,6 +11,8 @@ export function Input({class: clas, bsSize, ...props})
 
 export function FormLabel({class: clas, bsSize, col, ...props}, children)
 
+export function Textarea({class: clas, bsSize, ...props})
+
 export function SelectInput ({class: clas, bsSize, ...props})
 
 export function FormCheckInput ({label: clabel, type, class: clas, style, bsSize, reverse, id, value, ...props})
@@ -32,7 +34,7 @@ export function RadioSelectInput ({options, class: clas, bsSize, inline, id, ...
 | type | control |
 | --- | --- |
 | 'text' |            Input |
-| 'textarea' |        Input |
+| 'textarea' |        Textarea |
 | 'select' |          SelectInput |
 | 'radioselect' |     RadioSelectInput |
 | 'checkbox' |        CheckboxInput |

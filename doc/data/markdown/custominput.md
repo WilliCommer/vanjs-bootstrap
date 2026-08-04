@@ -13,7 +13,7 @@ import {Button} from 'vanjs-bootstrap';
 // const t = i18n.tPath('align-input');        // use current language
 const t = t=>t;                                // use dummy translate
 
-const {svg, path} = van.tagsNS("http://www.w3.org/2000/svg");
+const {svg, path} = van.tags("http://www.w3.org/2000/svg");
 
 // define button props
 const LEFT = {

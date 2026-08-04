@@ -1,13 +1,6 @@
 [
-    {
-        "text": "Home",
-		"href": "#home",
-		"title": "Home"
-    },
-    {
-        "text": "Button",
-		"href": "#page-button"
-    },
+    {"text": "Start", "href": "#home" },
+    {"text": "Button", "href": "#page-button" },
     {"text": "Form"},
     [
         {"text": "FormController", "href": "#formcontroller" },
@@ -19,10 +12,13 @@
     {"text": "Navbar", "href": "#navbar" },
     {"text": "Modal", "href": "#modal" },
     {"text": "Menu", "href": "#menu" },
+    {"text": "TagInput", "href": "#taginput" },
     {"text": "Tools"},
     [
+        {"text": "DragSort", "href": "#dragsort" },
+        {"text": "i18n", "href": "#i18n" },
         {"text": "Icons", "href": "#icons"},
-        {"text": "selectOptions", "href": "#selectoptions" },
-        {"text": "i18n", "href": "#i18n" }
-    ]
+        {"text": "selectOptions", "href": "#selectoptions" }
+    ],
+    {"text": "History", "href": "#history"}
 ]

@@ -58,7 +58,7 @@
 .markdown-body code {
 	font-family: "Consolas", "Menlo", "Monaco", monospace, serif;
 	font-size: .9em;
-	background: white;
+	/* background: white; */
 }
 
 .markdown-body a {

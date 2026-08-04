@@ -4,7 +4,7 @@ In addition to the dropdown menu, a popup menu and a context menu are also imple
 
 ## MenuItem
 
-> ##### export function MenuItem ({label, header, divider, text, active, disabled, class, ...props})
+> ### `export function MenuItem ({label, header, divider, text, active, disabled, tag, class, ...props})`
 
 This function returns dom like
 
@@ -22,11 +22,15 @@ This function returns dom like
 - **text** boolean  
 - **active** boolean  
 - **disabled** boolean  
+- **tag** string  
+  a optional tag overwrite the default tag, like "div"  
 - **onclick** event function  
+  use `event.preventDefault(); event.stopPropagation();` to prevent the menu from closing in your *onclick* function.  
+
 
 ## DropdownMenu
 
-> ##### export function DropdownMenu (...items)
+> ### `export function DropdownMenu (...items)`
 
 For *items* functions or objects are accepted.
 
@@ -65,7 +69,7 @@ const DropdownDemo = () => {
 
 ## PopupMenu
 
-> ##### export function PopupMenu (...items)
+> ### `export function PopupMenu (...items)`
 
 For *items* functions or objects are accepted.
 This function returns a Modal object. Call function *open* to show.
@@ -97,7 +101,7 @@ const PopupDemo = () => {
 
 ## ContextMenu
 
-> ##### export function ContextMenu (...items)
+> ### `export function ContextMenu (...items)`
 
 For *items* functions or objects are accepted.
 This function returns a Modal object. Call function *open(event)* to show. Function *open* accepts the click event to open the menu at click position.

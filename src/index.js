@@ -1,4 +1,4 @@
-export var version = `vanjs-bootstrap 1.0.3 LICENSE MIT (c) 2023 by Geoffrey Emmans`;
+export var version = `vanjs-bootstrap 1.0.7 LICENSE MIT (c) 2026 by Willi Commer`;
 
 export {typeMap,FormGroup,FormController,FormBuilder} from './form-controls';
 export {Input,FormLabel,SelectInput,RadioSelectInput,FormCheckInput,SwitchInput,CheckboxInput,RadioInput,ComboboxInput}  from './form-controls';

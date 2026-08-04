@@ -154,6 +154,10 @@
   outline-width: 0;
 }
 
+.markdown-body a img {
+  border: none;
+}
+
 .markdown-body strong {
   font-weight: inherit;
 }
@@ -167,16 +171,12 @@
   margin: 0.67em 0;
 }
 
-.markdown-body img {
-  border-style: none;
-}
-
-.markdown-body code,
+/* .markdown-body code,
 .markdown-body kbd,
 .markdown-body pre {
   font-family: monospace, monospace;
   font-size: 1em;
-}
+} */
 
 .markdown-body hr {
   box-sizing: content-box;
@@ -327,17 +327,17 @@
   margin-left: 0;
 }
 
-.markdown-body code {
+/* .markdown-body code {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: 12px;
-}
+} */
 
-.markdown-body pre {
+/* .markdown-body pre {
   margin-top: 0;
   margin-bottom: 0;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: 12px;
-}
+} */
 
 .markdown-body .octicon {
   vertical-align: text-bottom;
@@ -590,33 +590,19 @@
   background-color: #f6f8fa;
 }
 
-.markdown-body img {
-  max-width: 100%;
-  box-sizing: content-box;
-  background-color: #fff;
-}
-
-.markdown-body img[align=right] {
-  padding-left: 20px;
-}
-
-.markdown-body img[align=left] {
-  padding-right: 20px;
-}
-
-.markdown-body code {
+/* .markdown-body code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
   background-color: rgba(27,31,35,0.05);
   border-radius: 3px;
-}
+} */
 
 .markdown-body pre {
   word-wrap: normal;
 }
 
-.markdown-body pre>code {
+/* .markdown-body pre>code {
   padding: 0;
   margin: 0;
   font-size: 100%;
@@ -624,7 +610,7 @@
   white-space: pre;
   background: transparent;
   border: 0;
-}
+} */
 
 .markdown-body .highlight {
   margin-bottom: 16px;
@@ -634,7 +620,7 @@
   margin-bottom: 0;
   word-break: normal;
 }
-
+/* 
 .markdown-body .highlight pre,
 .markdown-body pre {
   padding: 16px;
@@ -643,7 +629,7 @@
   line-height: 1.45;
   background-color: #f6f8fa;
   border-radius: 3px;
-}
+} */
 
 .markdown-body pre code {
   display: inline;
@@ -653,7 +639,7 @@
   overflow: visible;
   line-height: inherit;
   word-wrap: normal;
-  background-color: transparent;
+  /* background-color: transparent; */
   border: 0;
 }
 

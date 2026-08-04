@@ -203,7 +203,11 @@ export function MenuItem (props)  {
         return li(tag({class: classf("dropdown-item-text"), onclick: noclick, ...rest}, label));
     }
     tag = tag ? van.tags[tag] : button;
-    return li(tag({class: classf("dropdown-item"), role:"button", ...rest}, label));
+    
+    console.log('tag', tag, button)
+    // if( tag === button ) 
+        rest.type = 'button';
+    return li(tag({class: classf("dropdown-item"), role:"button", ...rest}, 'x' + label));
 }
 
 

@@ -1,4 +1,4 @@
-# vanjs-bootstrap
+# vanjs-bootstrap 1.0.7
 
 - [Start](#home)
 - [Button](#page-button)
@@ -26,7 +26,7 @@
 
 # <img src="img/form-lib.svg" alt="logo" height="60">&nbsp; <img src="img/vanjs.svg" alt="logo" height="60"> VanJs Bootstrap Components
 
-![vanjs](https://img.shields.io/badge/🍦VanJs-1.2-blue)
+![vanjs](https://img.shields.io/badge/🍦VanJs-1.6-blue)
 ![bs](https://img.shields.io/badge/Bootstrap-5-blue?logo=bootstrap&logoColor=white)
 
 ----
@@ -248,7 +248,7 @@ See [FormBuilder Demo](#formbuilder) for example.
 | inputClass | class of the input control |
 | bsSize | Bootstrap size |
 | cols | space separated string "left right" for the Bootstrap column sizes i.e. "3 6" |
-| col | Bootstrap column size of the group alternative to cols. Used for form class "row g-3" |
+| col | Bootstrap column size of the group alternative to cols. i.e. `col: "col-md-6"` creates a `<div class="col-md-6"`. Used for form class "row g-3". |
 | id | HTML id of group. Will get random id if omited. Label id is id+'-l', input id is id + '-i' |
 | separated | special for FormCheck. Separate label and check if true |
 | ...props | passed to input control |
@@ -587,7 +587,7 @@ import {Button} from 'vanjs-bootstrap';
 // const t = i18n.tPath('align-input');        // use current language
 const t = t=>t;                                // use dummy translate
 
-const {svg, path} = van.tagsNS("http://www.w3.org/2000/svg");
+const {svg, path} = van.tags("http://www.w3.org/2000/svg");
 
 // define button props
 const LEFT = {
@@ -859,7 +859,7 @@ import van from 'vanjs-core';
 import {NavLink} from 'vanjs-bootstrap';
 import {tPath} from '../i18n';
 
-const {svg, path} = van.tagsNS("http://www.w3.org/2000/svg");
+const {svg, path} = van.tags("http://www.w3.org/2000/svg");
 
 const sun = svg({width: "1em", height: "1em", fill: "currentColor", viewBox: "0 0 16 16"},
     path({d: "M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"})
@@ -1301,7 +1301,7 @@ A form multi select control to edit a list of tag items.
 - hold ctrl key to select / deselect all items
 - hold shift key to prevent list close
 
-## icons
+## Overwrite Translate Function
 
 icons = {IconDelete, IconCheck, IconUncheck, IconAsc,IconDsc}
 
@@ -1674,7 +1674,7 @@ The function icon displays icons on different sources.
 - **VanJs function**  
 
 ```javascript
-  const {path} = van.tagsNS("http://www.w3.org/2000/svg");  
+  const {path} = van.tags("http://www.w3.org/2000/svg");  
   anything = props => SvgIconBase({viewBox: "0 0 16 16", ...props},  
     path({d: "M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"})  
   );  
@@ -1706,7 +1706,7 @@ import van from 'vanjs-core';
 import {setIcon, ImgIcon, SvgStrIcon, SvgIconBase} from 'vanjs-bootstrap';
 import FormLogo from './form-lib.svg?raw';
 
-const {path} = van.tagsNS("http://www.w3.org/2000/svg");
+const {path} = van.tags("http://www.w3.org/2000/svg");
 
 const sun = props => SvgIconBase({viewBox: "0 0 16 16", ...props},
     path({d: "M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"})
@@ -1809,7 +1809,7 @@ The icon size (width and height) can be changed by "size" property.
 
 ```javascript
 function MyIcon (props) {
-  const {rect} = van.tagsNS("http://www.w3.org/2000/svg");
+  const {rect} = van.tags("http://www.w3.org/2000/svg");
   return SvgIconBase({viewBox: "0 0 100 100", ...props},
     rect({x:"11.5", y:"9.4", width:"80", height:"80", rx:"4.4444", ry:"4.4444" stroke-width:"8"})
   )
@@ -1932,11 +1932,15 @@ return input({type: 'select', value: fontName}, selectOptions(fontNames, true, f
 
 ## History
 
-- 1.0.6  
-  bugfix Modal class
-
+- 1.0.7
+  update to bootstrap 5.3.8
+  update to vanjs-core 1.6.0  
+  
 <details>
   <summary>older</summary>
+
+- 1.0.6  
+  bugfix Modal class  
 
 - 1.0.5  
   bugfix  

@@ -1,6 +1,6 @@
 # Button
 
-> ##### `export function Button ({bsSize, class, color='secondary', outline, dropdown, ...props}, children)`
+> ### `export function Button ({bsSize, class, color='secondary', outline, dropdown, ...props}, children)`
 
 Implements a Bootstrap [button](https://getbootstrap.com/docs/5.3/components/buttons/)
 

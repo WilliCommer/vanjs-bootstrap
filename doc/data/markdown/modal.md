@@ -4,7 +4,7 @@ Work with Bootstrap [Modal](https://getbootstrap.com/docs/5.3/components/modal).
 
 ## ModalFrame
 
-> ##### `export function ModalFrame (options)`
+> ### `export function ModalFrame (options)`
 
 The function ModalFrame creates a complete modal dom struture like:
 
@@ -40,10 +40,10 @@ div(
         id:      "exampleModal",
         header:  "Modal title",
         body:    "Modal body text goes here.",
-        footer:  div(
+        footer: [
             Button({"data-bs-dismiss": "modal"}, 'Close'),
             Button({color: "primary"}, 'Save changes'),
-        )
+        ]
     })
 );
 ```
@@ -78,7 +78,7 @@ div(
   A optional diallog width like "20em" or "fit-content"  
 
 - **class**  
-  An additional class  
+  An additional class i.e. "modal-fullscreen"  
 
 <br/>
 
@@ -86,7 +86,7 @@ div(
 
 You can achieve more flexibility by using the Modal function.
 
-> ##### `export function Modal (args, options)`
+> ### `export function Modal (args, options)`
 
 Where **args** are the options used for ModalFrame and **options** are controller options.
 The function returns an object with properties and functions.
@@ -200,7 +200,7 @@ const LoginDlg = ({name, pw}) => {
 
     // focus first input after open
     dlg.onShown = () => {
-        document.getElementById('i_login-dlg-name').focus()
+        document.getElementById(fb.id + '-name-i').focus()
     };
 
     return dlg;

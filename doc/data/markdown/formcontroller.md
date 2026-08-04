@@ -1,6 +1,6 @@
 # FormController
 
-> ##### `export function FormController ({values})`
+> ### `export function FormController ({values})`
 
 Function FormController creates a simple object to handle multiple inputs.
 
