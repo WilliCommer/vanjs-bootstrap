@@ -1,3 +1,8 @@
+import van from "vanjs-core";
+
+// restore old logik of van.val
+van.val = (s) => (s && typeof s === "object" && "val" in s ? s.val : s);
+
 export var version = `vanjs-bootstrap 1.0.7 LICENSE MIT (c) 2026 by Willi Commer`;
 
 export {typeMap,FormGroup,FormController,FormBuilder} from './form-controls';
