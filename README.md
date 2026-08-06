@@ -1,4 +1,4 @@
-# vanjs-bootstrap 1.0.7
+# vanjs-bootstrap 1.0.8
 
 - [Start](#home)
 - [Button](#page-button)
@@ -1932,9 +1932,10 @@ return input({type: 'select', value: fontName}, selectOptions(fontNames, true, f
 
 ## History
 
-- 1.0.7
+- 1.0.8
   update to bootstrap 5.3.8
-  update to vanjs-core 1.6.0  
+  update to vanjs-core 1.6.1 
+  inject old van.val function 
   
 <details>
   <summary>older</summary>

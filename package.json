@@ -1,6 +1,6 @@
 {
 	"name": "vanjs-bootstrap",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "component library using VanJs and Bootstrap",
 	"keywords": [
 		"VanJs",
@@ -11,13 +11,14 @@
 	],
 	"license": "MIT",
 	"author": "Willi Commer",
+	
 	"source": "src/index.js",
-	"main": "src/index.js",
-	"xmain": "./dist/lib.js",
+	"main": "./dist/lib.js",
 	"module": "./dist/lib.module.mjs",
 	"umd:main": "./dist/lib.umd.js",
 	"types": "./dist/index.d.ts",
 	"esnext": "src/index.js",
+
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/WilliCommer/vanjs-bootstrap"
@@ -26,7 +27,7 @@
 		"build": "microbundle"
 	},
 	"devDependencies": {
-		"microbundle": "^0.6.0"
+		"microbundle": "^0.15.1"
 	},
 	"peerDependencies": {
 		"bootstrap": "^5.3.8",
