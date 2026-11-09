@@ -7,7 +7,7 @@
 
 - [Documentation with demo](doc/index.html)
 - [API Jsdoc generated](doc/api/index.html)
-- [Online Demo](http://familiecommer.de/vanjs-bootstrap-demo)
+- [Online Demo](https://familiecommer.de/vanjs-bootstrap-demo)
 
 
 ## Installation
