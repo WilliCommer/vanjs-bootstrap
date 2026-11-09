@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>navbar.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-drag-sort.html">drag-sort</a></li><li><a href="module-form-controls.html">form-controls</a><ul class='methods'><li data-type='method'><a href="module-form-controls.html#.Button">Button</a></li><li data-type='method'><a href="module-form-controls.html#.CheckboxInput">CheckboxInput</a></li><li data-type='method'><a href="module-form-controls.html#.ComboboxInput">ComboboxInput</a></li><li data-type='method'><a href="module-form-controls.html#.ComboboxInputP">ComboboxInputP</a></li><li data-type='method'><a href="module-form-controls.html#.FormBuilder">FormBuilder</a></li><li data-type='method'><a href="module-form-controls.html#.FormCheckInput">FormCheckInput</a></li><li data-type='method'><a href="module-form-controls.html#.FormControl">FormControl</a></li><li data-type='method'><a href="module-form-controls.html#.FormController">FormController</a></li><li data-type='method'><a href="module-form-controls.html#.FormGroup">FormGroup</a></li><li data-type='method'><a href="module-form-controls.html#.FormLabel">FormLabel</a></li><li data-type='method'><a href="module-form-controls.html#.Input">Input</a></li><li data-type='method'><a href="module-form-controls.html#.RadioInput">RadioInput</a></li><li data-type='method'><a href="module-form-controls.html#.RadioSelectInput">RadioSelectInput</a></li><li data-type='method'><a href="module-form-controls.html#.SelectInput">SelectInput</a></li><li data-type='method'><a href="module-form-controls.html#.SwitchInput">SwitchInput</a></li><li data-type='method'><a href="module-form-controls.html#.Textarea">Textarea</a></li></ul></li><li></li><li></li><li><a href="module-html-string-attr.html">html-string-attr</a><ul class='methods'><li data-type='method'><a href="module-html-string-attr.html#.extractAttributes">extractAttributes</a></li><li data-type='method'><a href="module-html-string-attr.html#.updateAttributes">updateAttributes</a></li></ul></li><li><a href="module-icons.html">icons</a><ul class='methods'><li data-type='method'><a href="module-icons.html#.Icon">Icon</a></li><li data-type='method'><a href="module-icons.html#.getIcon">getIcon</a></li><li data-type='method'><a href="module-icons.html#.setIcon">setIcon</a></li><li data-type='method'><a href="module-icons.html#.setSvgAttributes">setSvgAttributes</a></li><li data-type='method'><a href="module-icons.html#.spriteify">spriteify</a></li></ul></li><li><a href="module-navbar.html">navbar</a><ul class='methods'><li data-type='method'><a href="module-navbar.html#.Navbar">Navbar</a></li></ul></li><li><a href="module-selectoptions.html">selectoptions</a><ul class='methods'><li data-type='method'><a href="module-selectoptions.html#~selectOptions">selectOptions</a></li></ul></li><li><a href="module-tag-input.html">tag-input</a></li><li><a href="module-vanjs-bootstrap_drag-sort.html">vanjs-bootstrap/drag-sort</a></li><li><a href="module-vanjs-bootstrap_i18n.html">vanjs-bootstrap/i18n</a></li><li><a href="module-vanjs-bootstrap_modal.html">vanjs-bootstrap/modal</a><ul class='methods'><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.CloseButton">CloseButton</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.ContextMenu">ContextMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.DropdownMenu">DropdownMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.MenuItem">MenuItem</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.Modal">Modal</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.ModalFrame">ModalFrame</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.PopupMenu">PopupMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.PopupMenuFrame">PopupMenuFrame</a></li></ul></li><li><a href="module-vanjs-bootstrap_tag-input.html">vanjs-bootstrap/tag-input</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">navbar.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/** @module navbar **/
+
+import van from 'vanjs-core';
+
+const { div, button, hr, span, nav, a, ul, li } = van.tags;
+const noHref = 'javascript:void(0);';
+
+/**
+ * Create a Bootstrap navigation element
+ * &lt;br/>This component simplifies the use of the Bootstrap navigation bar.
+ * @returns {object}
+ */
+export function Navbar({
+    class: clas,
+    containerClass = 'container-fluid align-items-center',
+    sticky = true,
+    menu,
+    t = t=>t,
+    ...props
+}) {
+
+    const getClass = () => {
+        let res = "navbar navbar-expand-lg bg-body-tertiary";
+        if(sticky) res += " sticky-top";
+        if(van.val(clas)) res += " " + van.val(clas);
+        return res;
+    }
+
+    const appendix = menu.appendix || null;
+    delete menu.appendix;
+    
+    return nav({class: getClass},
+        div({class: containerClass },
+            menu.brand,
+            button({ class: "navbar-toggler", type: "button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
+                span({ class: "navbar-toggler-icon" }),
+            ),
+
+            div({ class: "collapse navbar-collapse", id: "navbarSupportedContent" },
+                ul({ class: "me-auto navbar-nav" },
+                    menu.items.map( item => typeof item === 'function' ? item() : NavItem({...item,t}) ),
+                ),
+                appendix
+            )
+        ),
+    )
+}
+
+
+export function NavItem({href=noHref,label,icon,items,level=0,Comp,hidden=false,t=t=>t,...props}) {
+
+    if(typeof hidden === 'function') hidden = hidden();
+    if (hidden) return null;
+
+    (typeof label === 'function') &amp;&amp; (label = label());
+    label = label ? t(van.val(label)) : '';
+    props.title &amp;&amp; (props.title = t(van.val(props.title)));
+    // if(icon) label = &lt;Icon icon={icon} title={label} />
+
+    if(items) {
+        return NavMenu({label,items,level,t,...props});
+    }
+
+    const cl = () => {
+        let res = "nav-item";
+        if(level !== 0) res = "";
+        if(van.val(props.class)) res += " " + van.val(props.class);
+        return res;
+    };
+
+    if (Comp) {
+        return li({class: cl}, Comp({href,label,icon,items,level,hidden,t,...props}));
+    }
+
+    return li({class: cl}, NavLink({...props, href, label, level}) );
+}
+
+
+
+export function NavLink({label, class: clas, active, disabled, divider, level=0, ...props}) {
+
+    const cl = () => {
+        let res = "nav-link";
+        if(level !== 0) res = "dropdown-item";
+        if(van.val(active)) res += " active";
+        if(van.val(active) &amp;&amp; level === 0) res += " text-primary";
+        if(van.val(disabled)) res += " disabled";
+        if(van.val(clas)) res += " " + van.val(clas);
+        return res;
+    };
+
+    if(divider) return hr({class: "dropdown-divider"});
+    return a({class: cl, href: noHref, ...props}, label);
+}
+
+
+export function NavMenu ({label, items, t= t=>t, level, ...props}) {
+
+    if(level > 0) // don't work ?
+        return li({},
+            a({class: "dropdown-item", href:noHref}, label + " »"),
+            ul({class: "submenu dropdown-menu"},
+                items.map( item => NavItem({level: level + 1, t, ...item}) ),
+            ),
+        );
+
+    return li({class: "nav-item dropdown", id: "NavDropdown"+level},
+        a({class: "nav-link dropdown-toggle", href: noHref, "data-bs-toggle": "dropdown"}, label),
+        ul({class: "dropdown-menu"},
+            items.map( item => NavItem({level: level + 1, ...item, t, ...props}) ),
+        ),
+    );
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Mon Nov 09 2026 14:33:39 GMT+0100 (Mitteleuropäische Normalzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+{
+	"name": "vanjs-bootstrap",
+	"version": "1.2.0",
+	"type": "module",
+	"description": "component library using VanJs and Bootstrap",
+	"keywords": [
+		"VanJs",
+		"Bootstrap",
+		"UI",
+		"Component",
+		"Library"
+	],
+	"license": "MIT",
+	"author": "Willi Commer",
+	"source": "src/index.js",
+	"main": "./dist/index.js",
+	"module": "./dist/index.modern.js",
+	"exports": {
+		".": {
+			"import": "./dist/index.modern.js",
+			"require": "./dist/index.js",
+			"default": "./dist/index.modern.js"
+		},
+		"./modal": {
+			"import": "./dist/modal.modern.js",
+			"require": "./dist/modal.js",
+			"default": "./dist/modal.modern.js"
+		},
+		"./i18n": {
+			"import": "./dist/i18n.modern.js",
+			"require": "./dist/i18n.js",
+			"default": "./dist/i18n.modern.js"
+		},
+		"./tag-input": {
+			"import": "./dist/tag-input.modern.js",
+			"require": "./dist/tag-input.js",
+			"default": "./dist/tag-input.modern.js"
+		},
+		"./drag-sort": {
+			"import": "./dist/drag-sort.modern.js",
+			"require": "./dist/drag-sort.js",
+			"default": "./dist/drag-sort.modern.js"
+		}
+	},
+	"sideEffects": [
+		"**/*.css"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/WilliCommer/vanjs-bootstrap"
+	},
+	"scripts": {
+		"build": "microbundle --format modern,cjs src/index.js src/modal.js src/i18n.js src/tag-input.js src/drag-sort.js",
+		"dev": "microbundle watch --format modern,cjs --no-typescript",
+		"build:dbg": "microbundle src/index.js src/i18n.js src/tag-input.js src/drag-sort--compress=false",
+		"jsdoc": "jsdoc -c jsdoc.json"
+	},
+	"devDependencies": {
+		"docdash": "^2.0.2",
+		"highlight.js": "^11.12.0",
+		"microbundle": "^0.15.1"
+	},
+	"peerDependencies": {
+		"bootstrap": "^5.3.8",
+		"vanjs-core": "^1.6.2"
+	}
+}

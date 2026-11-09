@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>combobox-input - Kopie (2).js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-drag-sort.html">drag-sort</a></li><li><a href="module-form-controls.html">form-controls</a><ul class='methods'><li data-type='method'><a href="module-form-controls.html#.Button">Button</a></li><li data-type='method'><a href="module-form-controls.html#.CheckboxInput">CheckboxInput</a></li><li data-type='method'><a href="module-form-controls.html#.ComboboxInput">ComboboxInput</a></li><li data-type='method'><a href="module-form-controls.html#.ComboboxInput">ComboboxInput</a></li><li data-type='method'><a href="module-form-controls.html#.ComboboxInput">ComboboxInput</a></li><li data-type='method'><a href="module-form-controls.html#.ComboboxInputP">ComboboxInputP</a></li><li data-type='method'><a href="module-form-controls.html#.FormBuilder">FormBuilder</a></li><li data-type='method'><a href="module-form-controls.html#.FormCheckInput">FormCheckInput</a></li><li data-type='method'><a href="module-form-controls.html#.FormControl">FormControl</a></li><li data-type='method'><a href="module-form-controls.html#.FormController">FormController</a></li><li data-type='method'><a href="module-form-controls.html#.FormGroup">FormGroup</a></li><li data-type='method'><a href="module-form-controls.html#.FormLabel">FormLabel</a></li><li data-type='method'><a href="module-form-controls.html#.Input">Input</a></li><li data-type='method'><a href="module-form-controls.html#.RadioInput">RadioInput</a></li><li data-type='method'><a href="module-form-controls.html#.RadioSelectInput">RadioSelectInput</a></li><li data-type='method'><a href="module-form-controls.html#.SelectInput">SelectInput</a></li><li data-type='method'><a href="module-form-controls.html#.SwitchInput">SwitchInput</a></li><li data-type='method'><a href="module-form-controls.html#.Textarea">Textarea</a></li></ul></li><li></li><li></li><li></li><li></li><li><a href="module-html-string-attr.html">html-string-attr</a><ul class='methods'><li data-type='method'><a href="module-html-string-attr.html#.extractAttributes">extractAttributes</a></li><li data-type='method'><a href="module-html-string-attr.html#.updateAttributes">updateAttributes</a></li></ul></li><li><a href="module-icons.html">icons</a><ul class='methods'><li data-type='method'><a href="module-icons.html#.Icon">Icon</a></li><li data-type='method'><a href="module-icons.html#.getIcon">getIcon</a></li><li data-type='method'><a href="module-icons.html#.setIcon">setIcon</a></li><li data-type='method'><a href="module-icons.html#.setSvgAttributes">setSvgAttributes</a></li><li data-type='method'><a href="module-icons.html#.spriteify">spriteify</a></li></ul></li><li><a href="module-navbar.html">navbar</a><ul class='methods'><li data-type='method'><a href="module-navbar.html#.Navbar">Navbar</a></li></ul></li><li><a href="module-selectoptions.html">selectoptions</a><ul class='methods'><li data-type='method'><a href="module-selectoptions.html#~selectOptions">selectOptions</a></li></ul></li><li><a href="module-tag-input.html">tag-input</a></li><li><a href="module-vanjs-bootstrap_drag-sort.html">vanjs-bootstrap/drag-sort</a></li><li><a href="module-vanjs-bootstrap_i18n.html">vanjs-bootstrap/i18n</a></li><li><a href="module-vanjs-bootstrap_modal.html">vanjs-bootstrap/modal</a><ul class='methods'><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.CloseButton">CloseButton</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.ContextMenu">ContextMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.DropdownMenu">DropdownMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.MenuItem">MenuItem</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.Modal">Modal</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.ModalFrame">ModalFrame</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.PopupMenu">PopupMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.PopupMenuFrame">PopupMenuFrame</a></li></ul></li><li><a href="module-vanjs-bootstrap_tag-input.html">vanjs-bootstrap/tag-input</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">combobox-input - Kopie (2).js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** @module form-controls **/
+
+import van from 'vanjs-core';
+import selectOptions from './select-options';
+import { Button, Input, typeMap } from './form-controls.js';
+
+typeMap.set('combobox', ComboboxInput);
+
+
+/**
+ * Create a searchable input control with dropdown options.
+ * Dropdown behavior is implemented by the component and does not require Bootstrap JavaScript or Popper.
+ * @param {object} props
+ * @property {SelectOption} options 
+ * @property {string|object} style
+ * @property {string} bsSize 
+ * @property {boolean} disabled
+ * @property {function} onitemclick - onitemclick(value,selItem)
+ * &lt;br>&amp;nbsp;&amp;nbsp;vaue = selItem.value
+ * &lt;br>&amp;nbsp;&amp;nbsp;selItem = [text,value] 
+ * &lt;br>&amp;nbsp;&amp;nbsp;returns new value
+ * @property {function} afteritemclick - afteritemclick(event)
+ * @property {object} ...inputProps other props
+ * @returns {HTMLElement} input control with dropdown options
+ */
+
+export function ComboboxInput(props) {
+    const { div, ul, li } = van.tags;
+    var {
+        options = [],
+        style,
+        bsSize,
+        onitemclick,
+        afteritemclick,
+        disabled,
+        ...inputProps                                               // name, value, oninput ...
+    } = props;
+
+    if(!props.name) props.name = 'cb_' + Math.random().toString(36).substring(2, 9);
+    if(!props.id) props.id = 'cbi_' + Math.random().toString(36).substring(2, 9);
+    const listId = props.id+'-options';
+    const itemId = index => (listId + '-' + index);
+
+    options = selectOptions(options);
+
+    var dvalue = van.state(valueToDisplay(options, van.val(props.value)));  // declare display value as van.state
+    const isOpen = van.state(false);
+    const activeIndex = van.state(-1);
+
+
+    function displayToValue(options, value) {
+        let oItem = options.find(o => o.children === value);      // lookup in options to get associated value
+        if (oItem) value = oItem.value;                             // value fount, otherwise it's still the caption
+        return value;
+    }
+
+    function valueToDisplay(options, value) {
+        var oItem = options.find(o => o.value === value);             // lookup in options to get associated display value
+        if (oItem) value = oItem.children;
+        return value;
+    }
+
+    function postValue( value ) {
+        dvalue.val = value;
+        if (props.oninput) props.oninput({
+            target: {
+                value: displayToValue(options, value),
+                name: props.name,
+                type: props.type
+            }
+        });
+    }
+
+    function selectClick(value) {
+        let { name, type } = props;
+        value = displayToValue(options, value);
+
+        if (onitemclick) {
+            let selItem = options.find(o => o.value === value);
+            let newValue = onitemclick(value, selItem);
+            if (newValue !== undefined) value = newValue;
+        }
+
+        dvalue.val = valueToDisplay(options, value);
+        isOpen.val = false;
+        activeIndex.val = -1;
+
+        props.oninput &amp;&amp; props.oninput({
+            target: { name, value, type }
+        });
+
+        props.afteritemclick &amp;&amp; props.afteritemclick({
+            target: { name, value, type }
+        });
+
+        return false;
+    };
+
+
+    const menuStyle = 'top:100%;left:0;right:0;max-height:16rem;overflow-y:auto;cursor:default;'
+
+    return div({
+        style: van.val(props.style),
+        class: () => {
+            let res = 'input-group';
+            if (van.val(bsSize)) res += ' input-group-' + van.val(bsSize);
+            if (van.val(props.class)) res += ' ' + van.val(props.class);
+            return res;
+        },
+        onfocusout: event => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+                isOpen.val = false;
+                activeIndex.val = -1;
+            }
+        }
+    },
+
+        Input({
+            ...inputProps,
+            bsSize,
+            disabled,
+            value: dvalue,
+            role: 'combobox',
+            'aria-autocomplete': 'list',
+            'aria-haspopup': 'listbox',
+            'aria-controls': listId,
+            'aria-expanded': () => isOpen.val,
+            'aria-activedescendant': () => activeIndex.val >= 0
+                ? `${listId}-${activeIndex.val}`
+                : undefined,
+            onfocus: event => {
+                inputProps.onfocus &amp;&amp; inputProps.onfocus(event);
+            },
+            oninput: event => {
+                postValue( event.target.value );
+            },
+            onkeydown: event => {
+                console.log('keydown', event.key)
+                if (options.length &amp;&amp; (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+                    event.preventDefault();
+                    if (!isOpen.val) isOpen.val = true;
+                    const step = event.key === 'ArrowDown' ? 1 : -1;
+                    const current = options.findIndex(o=>dvalue.val === o.children);
+                    const next = current &lt; 0
+                        ? (step > 0 ? 0 : options.length - 1)
+                        : (current + step + options.length) % options.length;
+                    postValue( options[next].children );
+                } else if (options.length &amp;&amp; event.key === 'Enter' &amp;&amp; isOpen.val ) { //&amp;&amp; activeIndex.val >= 0) {
+                    event.preventDefault();
+                    selectClick(dvalue.val);
+                } else if (event.key === 'Escape' &amp;&amp; isOpen.val) {
+                    event.preventDefault();
+                    isOpen.val = false;
+                    activeIndex.val = -1;
+                }
+                inputProps.onkeydown &amp;&amp; inputProps.onkeydown(event);
+            },
+        }),
+
+        ul({
+            id: listId,
+            role: 'listbox',
+            class: 'dropdown-menu',
+            style: () => (menuStyle + `display: ${isOpen.val ? 'block' : 'none'};`),
+        },
+            // options.map((o, index) => li({
+            //     id: `${listId}-${index}`,
+            //     role: 'option',
+            //     active: () => o.children === dvalue.val,
+            //     class: 'dropdown-item',
+            //     onmousedown: event => event.preventDefault(),
+            //     onclick: () => selectClick(o.children),
+            // }, o.children))
+            options.map((o, index) => li(
+                van.tags.button({
+                    id: itemId(index),
+                    class: () => `dropdown-item${o.children === dvalue.val ? ' active' : ''}`,
+                    type: 'button',
+                    role: 'button',
+                    onmousedown: event => event.preventDefault(),
+                    onclick: () => selectClick(o.children),
+                }, o.children))
+            )
+
+        ),
+        Button({
+            disabled,
+            'aria-label': 'Show options',
+            'aria-haspopup': 'listbox',
+            'aria-controls': listId,
+            'aria-expanded': () => isOpen.val,
+            onclick: () => {
+                isOpen.val = !isOpen.val;
+                activeIndex.val = -1;
+            },
+        }, '▾'),
+    )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Mon Nov 02 2026 06:08:38 GMT+0100 (Mitteleuropäische Normalzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

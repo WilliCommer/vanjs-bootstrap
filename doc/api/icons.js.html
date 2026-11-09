@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>icons.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-drag-sort.html">drag-sort</a></li><li><a href="module-form-controls.html">form-controls</a><ul class='methods'><li data-type='method'><a href="module-form-controls.html#.Button">Button</a></li><li data-type='method'><a href="module-form-controls.html#.CheckboxInput">CheckboxInput</a></li><li data-type='method'><a href="module-form-controls.html#.ComboboxInput">ComboboxInput</a></li><li data-type='method'><a href="module-form-controls.html#.ComboboxInputP">ComboboxInputP</a></li><li data-type='method'><a href="module-form-controls.html#.FormBuilder">FormBuilder</a></li><li data-type='method'><a href="module-form-controls.html#.FormCheckInput">FormCheckInput</a></li><li data-type='method'><a href="module-form-controls.html#.FormControl">FormControl</a></li><li data-type='method'><a href="module-form-controls.html#.FormController">FormController</a></li><li data-type='method'><a href="module-form-controls.html#.FormGroup">FormGroup</a></li><li data-type='method'><a href="module-form-controls.html#.FormLabel">FormLabel</a></li><li data-type='method'><a href="module-form-controls.html#.Input">Input</a></li><li data-type='method'><a href="module-form-controls.html#.RadioInput">RadioInput</a></li><li data-type='method'><a href="module-form-controls.html#.RadioSelectInput">RadioSelectInput</a></li><li data-type='method'><a href="module-form-controls.html#.SelectInput">SelectInput</a></li><li data-type='method'><a href="module-form-controls.html#.SwitchInput">SwitchInput</a></li><li data-type='method'><a href="module-form-controls.html#.Textarea">Textarea</a></li></ul></li><li></li><li></li><li><a href="module-html-string-attr.html">html-string-attr</a><ul class='methods'><li data-type='method'><a href="module-html-string-attr.html#.extractAttributes">extractAttributes</a></li><li data-type='method'><a href="module-html-string-attr.html#.updateAttributes">updateAttributes</a></li></ul></li><li><a href="module-icons.html">icons</a><ul class='methods'><li data-type='method'><a href="module-icons.html#.Icon">Icon</a></li><li data-type='method'><a href="module-icons.html#.getIcon">getIcon</a></li><li data-type='method'><a href="module-icons.html#.setIcon">setIcon</a></li><li data-type='method'><a href="module-icons.html#.setSvgAttributes">setSvgAttributes</a></li><li data-type='method'><a href="module-icons.html#.spriteify">spriteify</a></li></ul></li><li><a href="module-navbar.html">navbar</a><ul class='methods'><li data-type='method'><a href="module-navbar.html#.Navbar">Navbar</a></li></ul></li><li><a href="module-selectoptions.html">selectoptions</a><ul class='methods'><li data-type='method'><a href="module-selectoptions.html#~selectOptions">selectOptions</a></li></ul></li><li><a href="module-tag-input.html">tag-input</a></li><li><a href="module-vanjs-bootstrap_drag-sort.html">vanjs-bootstrap/drag-sort</a></li><li><a href="module-vanjs-bootstrap_i18n.html">vanjs-bootstrap/i18n</a></li><li><a href="module-vanjs-bootstrap_modal.html">vanjs-bootstrap/modal</a><ul class='methods'><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.CloseButton">CloseButton</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.ContextMenu">ContextMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.DropdownMenu">DropdownMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.MenuItem">MenuItem</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.Modal">Modal</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.ModalFrame">ModalFrame</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.PopupMenu">PopupMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.PopupMenuFrame">PopupMenuFrame</a></li></ul></li><li><a href="module-vanjs-bootstrap_tag-input.html">vanjs-bootstrap/tag-input</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">icons.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import van from 'vanjs-core';
+import {extractAttributes, updateAttributes} from './html-string-attr.js';
+
+/** @module icons **/
+
+
+/**
+ * Maps icon names to icon values used by {@link Icon}.
+ * @type {Map&lt;string, Function|string|HTMLElement>}
+ * @private
+ */
+export var iconMap = new Map();
+
+// define at least a empty space icon
+
+iconMap.set('SPACE', props => Icon('\u2001', {...props}) );
+
+
+/**
+ * fetch a icon by name from {@link iconMap}.
+ * @param {string} key - icon name the key in iconMap
+ * @returns {*}
+ */
+export function getIcon (key) {
+    if (typeof key !== 'string') return false;
+    const res = iconMap.get(key);
+    return res; 
+}
+
+
+/**
+ * Registers an icon under a key in {@link iconMap}.
+ * @param {string} key 
+ * @param {*} value 
+ */
+export function setIcon (key, value) {
+    iconMap.set(key,value);
+}
+
+
+/**
+ * Convert svg string to SVGElement. Use attributes.size to set width and height.
+ * @param {string} str - svg string
+ * @param {object} attributes - optional attributes (key / value)
+ * @returns {SVGElement}
+ * @private
+ * @example
+ * const myString = '&lt;svg width="100" height="100">&lt;circle cx="50" cy="50" r="40" fill="red" />&lt;/svg>';
+ * const svgElement = stringToSvg(myString);
+ * document.body.appendChild(svgElement);
+ * 
+ */
+
+export function stringToSvgElement (str, attributes) {
+    if(typeof str !== 'string') return null;
+    if(typeof attributes === 'object')
+        str = setSvgAttributes( str, attributes );
+    const div = document.createElement('div');
+    if(typeof window !== 'undefined') {
+        // works in browser
+        div.innerHTML = str;
+        return div.firstChild;
+    } else {
+        // works in prerender DOM mockup
+        div.outerHTML = str;
+        return div;
+    }
+}
+
+/**
+ * 
+ * @param {string} svgString - `&lt;svg ..`
+ * @param {object} attributes - `{size: "42", ..`
+ * @returns {string}
+ */
+export function setSvgAttributes (svgString, attributes) {
+    if( svgString &amp;&amp; attributes ) {
+        // handle pseudo attribute "size"
+        if( attributes.size ) {  
+            attributes.width = attributes.size;
+            attributes.height = attributes.size;
+        }
+        const elementAttr = extractAttributes(svgString);
+        Object.entries(attributes).forEach(([key, value]) => {
+            if( key !== 'size' &amp;&amp; value !== undefined) {
+                elementAttr[key] = value;
+            };
+        });
+        svgString = updateAttributes(svgString, elementAttr)
+    }
+    return svgString;
+}
+
+
+
+
+/**
+ * Icon( anything, {size, ...props} )
+ * 
+ * Create a HTMLElement to display a small (1em by default) image.
+ * The value of 'size' is a 'style' value and applies to 'width' and 'height', for example '16px', '2.5em', '60%' or 'inherit'.
+ * 
+ * First argument is
+ * - a key to an image registered with {@link setIcon} like 'MOON'
+ * - a UTF-8 char like '🌙'
+ * - a SVG string
+ * - a object with property 'src' to a image url and optional props 'alt', 'size', class...
+ * - a HTMLElement
+ * - a function like props=>Icon('MOON', props)
+ * - a Font Awesome class like 'fa-solid fa-house'
+ * 
+ * @param {*} icon - see examples
+ * @param {Object} props - optional properties
+ * 
+ * @see setIcon 
+ * 
+ * @example key of icon in iconMap
+ * Icon( 'key' )
+ * 
+ * @example UTF-8 char
+ * Icon( '🗺️' )
+ * 
+ * @example SVG string
+ * Icon( '&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">&lt;circle cx="5" cy="5" r="3"/>&lt;/svg>' )
+ * 
+ * @example SVG string with extra attributes
+ * Icon( 
+ *   '&lt;svg viewBox="0 0 10 10">&lt;circle cx="5" cy="5" r="3"/>&lt;/svg>',
+ *   {class: 'ms-3 border', size: '2.2em', onclick:()=>console.log('smile')}
+ * )
+ * 
+ * @example Image URL
+ * Icon( {src: "https://avatars.githubusercontent.com/u/25134550"), {class: "rounded-4"} )
+ *
+ * @example VanJs function
+ * const {circle, path, svg} = van.tags
+ * const Smiley = (props) => svg({width: "16px", viewBox: "0 0 50 50", ...props},
+ *  circle({cx: "25", cy: "25", "r": "20", stroke: "black", "stroke-width": "2", fill: "yellow"}),
+ *  circle({cx: "16", cy: "20", "r": "2", stroke: "black", "stroke-width": "2", fill: "black"}),
+ *  circle({cx: "34", cy: "20", "r": "2", stroke: "black", "stroke-width": "2", fill: "black"}),
+ *  path({"d": "M 15 30 Q 25 40, 35 30", stroke: "black", "stroke-width": "2", fill: "transparent"}),
+ * )
+ *
+ * setIcon('Smiley', Smiley)
+ * Icon('Smiley', {width: '2.5em'})
+ * 
+ * @example Font Awesome class
+ * Icon( "fa-solid fa-beer-mug-empty" )
+ * 
+*/
+
+export function Icon (icon, {size, ...props} = {}) {
+
+    // is it in iconMap ?
+    if (typeof icon === 'string') {                        
+        const storedIcon = getIcon(icon);
+        if (storedIcon) 
+            icon = storedIcon;
+    }
+
+    // is it SVGElement
+    // if (icon instanceof SVGElement) {
+    //     setSvgAttributes( icon, {size,...props} );
+    //     return icon;
+    // }
+    
+    // is it a function ? maybe VanJs
+    if (typeof icon === 'function') {                           
+        if (size !== undefined) { props.size = size; }
+        size = size || props.size || "1em";
+        delete props.size
+        props.width = size
+        props.height = size
+        return icon({...props});
+    }
+
+    // is it fontawesome
+    else if (typeof icon === 'string' &amp;&amp; icon.startsWith('fa')) {                        
+        if (size !== undefined) {
+            props.style = props.style = {
+                ...(props.style || {}),
+                fontSize: size
+            }
+        }
+        props.class = props.class ? props.class + ' ' + icon : icon
+        return van.tags.i({...props});
+    } 
+
+    // is it "&lt;svg ..>..&lt;/svg>"
+    if (typeof icon === 'string' &amp;&amp; icon.toLowerCase().startsWith('&lt;svg ')) {       
+        size = size === undefined ? '1em' : size;
+        return stringToSvgElement( icon, {size,...props});
+    } 
+
+    // is it a UTF-8 text ?
+    if ((typeof icon === 'string')) {   
+        let style = '';
+        if(size !== undefined) style = `font-size:${size};`;
+        if(props.style) style += props.style;
+        if (style) props.style = style;
+        return van.tags.span(props, icon);
+    }
+
+    // is it a image url
+    if(icon.src) {
+        if(size === undefined) size = '1em'
+        props.style = (props.style || icon.style || '') + `width:${size}; height:${size};`
+        props.alt = icon.alt || props.alt || icon.src.split('/').pop().split('.').shift()
+        props = {
+            ...icon,
+            ...props
+        }
+        return van.tags.img(props);
+    }
+    
+    // undefined icon
+    size = size === undefined ? '1em' : size;
+    let s = `width:${size}; height:${size}; min-width:${size};`;
+    if(props.style) s += props.style;
+    props.style = s;
+
+    return van.tags.div({...props});
+}
+
+
+/**
+ * The function returns a sprite containing all the SVGs defined in the iconMap and converts the registered SVGs into references. This sprite can then be appended to the document.body element.
+ * 
+ * @param {object} options - optional
+ * @param {string} options.idPrefix - idPrefix + key builds the use reference. Default = 'icon-'  
+ * @param {string} options.svgClass - extra class added to the reference. Default = '' 
+ * @param {string} options.spriteId - optianal id for the generated sprite
+ * @param {boolean} options.prettify - formated output. Default = false 
+ * @param {boolean} options.toDOM - append sprite to document.body, Default false
+ * @param {Map} options.map - Map with svg strings. Default is iconMap
+ * @returns {string} - sprite string
+ */
+export function spriteify( options ) {
+
+    // merge options with defaults
+    const { 
+        idPrefix = 'icon-', 
+        svgClass, 
+        spriteId,
+        toDOM = false,
+        prettify = false,
+        map = iconMap,
+    } = (options || {})
+
+    function svgToSymbol( rawSvg, id ) {
+        // Replace the opening &lt;svg with &lt;symbol id="YourID"
+        let cleanSvg = rawSvg.replace(/&lt;svg/i, `&lt;symbol id="${id}"`);
+        // Replace the closing &lt;/svg> with &lt;/symbol>
+        cleanSvg = cleanSvg.replace(/&lt;\/svg>/i, '&lt;/symbol>');
+        // Specifically remove xmlns, width, and height, along with their values, from the start tag
+        const args = extractAttributes( cleanSvg );
+        delete args.xmlns;
+        delete args.width;
+        delete args.height;
+        cleanSvg = updateAttributes( cleanSvg, args );
+          return cleanSvg;
+    }
+
+
+    const list = [];
+    for (const key of map.keys()) {
+        const icon = map.get(key)
+        if ( typeof icon === 'string' &amp;&amp; icon.slice(0,5).toLowerCase() === '&lt;svg ') {
+            const id = idPrefix + key
+            list.push( svgToSymbol( icon, id ) );
+            const newIconStr = `&lt;svg ${svgClass ? 'class="'+svgClass+'"' : ''}>&lt;use href="#${id}">&lt;/use>&lt;/svg>`;
+            map.set( key, newIconStr )
+        }
+    };
+
+    if(!list.length) return '';
+    
+    let result = `&lt;svg ${spriteId ? 'id="'+spriteId+'"' : ''} style="display: none;" xmlns="http://w3.org">`;
+    if( prettify ) result += '\n  ';
+    result += list.join( prettify ? '\n  ' : '' );
+    if( prettify ) result += '\n';
+    result += '&lt;/svg>';
+
+    if(toDOM) document.body.appendChild(Icon(result));
+
+    return result;
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Mon Nov 09 2026 14:33:39 GMT+0100 (Mitteleuropäische Normalzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

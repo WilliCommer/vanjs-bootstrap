@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>selectoptions - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-drag-sort.html">drag-sort</a></li><li><a href="module-form-controls.html">form-controls</a><ul class='methods'><li data-type='method'><a href="module-form-controls.html#.Button">Button</a></li><li data-type='method'><a href="module-form-controls.html#.CheckboxInput">CheckboxInput</a></li><li data-type='method'><a href="module-form-controls.html#.ComboboxInput">ComboboxInput</a></li><li data-type='method'><a href="module-form-controls.html#.ComboboxInputP">ComboboxInputP</a></li><li data-type='method'><a href="module-form-controls.html#.FormBuilder">FormBuilder</a></li><li data-type='method'><a href="module-form-controls.html#.FormCheckInput">FormCheckInput</a></li><li data-type='method'><a href="module-form-controls.html#.FormControl">FormControl</a></li><li data-type='method'><a href="module-form-controls.html#.FormController">FormController</a></li><li data-type='method'><a href="module-form-controls.html#.FormGroup">FormGroup</a></li><li data-type='method'><a href="module-form-controls.html#.FormLabel">FormLabel</a></li><li data-type='method'><a href="module-form-controls.html#.Input">Input</a></li><li data-type='method'><a href="module-form-controls.html#.RadioInput">RadioInput</a></li><li data-type='method'><a href="module-form-controls.html#.RadioSelectInput">RadioSelectInput</a></li><li data-type='method'><a href="module-form-controls.html#.SelectInput">SelectInput</a></li><li data-type='method'><a href="module-form-controls.html#.SwitchInput">SwitchInput</a></li><li data-type='method'><a href="module-form-controls.html#.Textarea">Textarea</a></li></ul></li><li></li><li></li><li><a href="module-html-string-attr.html">html-string-attr</a><ul class='methods'><li data-type='method'><a href="module-html-string-attr.html#.extractAttributes">extractAttributes</a></li><li data-type='method'><a href="module-html-string-attr.html#.updateAttributes">updateAttributes</a></li></ul></li><li><a href="module-icons.html">icons</a><ul class='methods'><li data-type='method'><a href="module-icons.html#.Icon">Icon</a></li><li data-type='method'><a href="module-icons.html#.getIcon">getIcon</a></li><li data-type='method'><a href="module-icons.html#.setIcon">setIcon</a></li><li data-type='method'><a href="module-icons.html#.setSvgAttributes">setSvgAttributes</a></li><li data-type='method'><a href="module-icons.html#.spriteify">spriteify</a></li></ul></li><li><a href="module-navbar.html">navbar</a><ul class='methods'><li data-type='method'><a href="module-navbar.html#.Navbar">Navbar</a></li></ul></li><li><a href="module-selectoptions.html">selectoptions</a><ul class='methods'><li data-type='method'><a href="module-selectoptions.html#~selectOptions">selectOptions</a></li></ul></li><li><a href="module-tag-input.html">tag-input</a></li><li><a href="module-vanjs-bootstrap_drag-sort.html">vanjs-bootstrap/drag-sort</a></li><li><a href="module-vanjs-bootstrap_i18n.html">vanjs-bootstrap/i18n</a></li><li><a href="module-vanjs-bootstrap_modal.html">vanjs-bootstrap/modal</a><ul class='methods'><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.CloseButton">CloseButton</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.ContextMenu">ContextMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.DropdownMenu">DropdownMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.MenuItem">MenuItem</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.Modal">Modal</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.ModalFrame">ModalFrame</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.PopupMenu">PopupMenu</a></li><li data-type='method'><a href="module-vanjs-bootstrap_modal.html#.PopupMenuFrame">PopupMenuFrame</a></li></ul></li><li><a href="module-vanjs-bootstrap_tag-input.html">vanjs-bootstrap/tag-input</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">selectoptions</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="~selectOptions"><span class="type-signature type-signature-inner">(inner) </span>selectOptions<span class="signature">(value, dom<span class="signature-attributes">opt</span>, selected<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;Object>|Array.&lt;HTMLElement>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Form controls in this library uses the selectOptions function.
+This converts different kind of lists into a uniform format that can easily be mapped into a dom.
+Is the <code>dom</code> parameter <code>true</code>, the function returns a ready mapped dom <code>option</code> list.
+<br>The <code>list</code> parameter accepts four notations:</p>
+<pre>
+- a komma separated list: 'TextValue1,TextValue2'
+- a array of values: ['TextValue1', 'TextValue2'...]  
+- a array of display / value pairs: [['Text1', Value1], ['Text2', Value2]...]
+- a array of objects: [{value: 1, ['children' || 'text' || 'displayValue']}]  
+</pre>  
+<br></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="select-options.js.html">select-options.js</a>, <a href="select-options.js.html#line92">line 92</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Examples</h5>
+    
+    <pre class="prettyprint"><code>Notations can be mixed inside a array.For example `[ '', ['text 1', 1], ['text 2', 2] ]` will be converted to:[  {    value: '',    children: '',  },  {    value: 1,    children: 'text 1',  },  {    value: 2,    children: 'text 2',  }]and with `dom=true` and `selected: "1"`:[option({value=""}), option({value="1", selected: true}, "text 1"), option({value="2"}, "text 2"),]</code></pre>
+
+    <pre class="prettyprint"><code>an other example:import {selectOptions} from 'lib';..return input({type: 'select', value: fontName}, selectOptions(fontNames, true, fontName))</code></pre>
+
+    <pre class="prettyprint"><code>selectOptions('red,green,blue', false)// => [{ value: 'red', children: 'red' }, ...]</code></pre>
+
+    <pre class="prettyprint"><code>selectOptions([['Text 1', 1], ['Text 2', 2]], true, 1)// => [option({ value: '1', selected: true }, 'Text 1'), ...]</code></pre>
+
+    <pre class="prettyprint"><code>Merge and Translateconst translate = txt => (txt==='None,Left,Right') ? 'Nix,Links,Rechts' : txt;input:    {        value: ',1,2',                          // required,    array acepted        text:  translate('None,Left,Right'),    // should,      array acepted    }output:        [{        value:      '',        children:   'Nix',    },{        value:      1,        children:   'Links',    }]        },{        value:      2,        children:   'Rechts',    }]    </code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">SelectOption</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>input list in one of the supported formats</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dom</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>when true, return a DOM-ready option list instead of plain objects</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>selected</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>selected value used when <code>dom</code> is true</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>either normalized option objects or mapped <code>&lt;option&gt;</code> elements</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object></span>
+|
+
+<span class="param-type">Array.&lt;HTMLElement></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="~SelectOption">SelectOption</h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Input type for selectOptions</p>
+<pre>
+- a komma separated list: 'TextValue1,TextValue2'
+- a array of values: ['TextValue1', 'TextValue2'...]  
+- a array of display / value pairs: [['Text1', Value1], ['Text2', Value2]...]
+- a array of objects: [{value: 1, ['children' || 'text' || 'displayValue']}]  
+</pre></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="select-options.js.html">select-options.js</a>, <a href="select-options.js.html#line7">line 7</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Input type for selectOptions</p>
+<pre>
+- a komma separated list: 'TextValue1,TextValue2'
+- a array of values: ['TextValue1', 'TextValue2'...]  
+- a array of display / value pairs: [['Text1', Value1], ['Text2', Value2]...]
+- a array of objects: [{value: 1, ['children' || 'text' || 'displayValue']}]  
+</pre>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Array.&lt;string></span>
+|
+
+<span class="param-type">Array.&lt;Array.&lt;(string|number)>></span>
+|
+
+<span class="param-type">Array.&lt;Object></span>
+|
+
+<span class="param-type">Object</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Mon Nov 09 2026 14:33:39 GMT+0100 (Mitteleuropäische Normalzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

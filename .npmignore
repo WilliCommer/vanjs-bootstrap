@@ -1,0 +1,8 @@
+docgen/*
+info/*
+trash/*
+test/*
+*.bat
+*.tgz
+jsdoc.json
+
